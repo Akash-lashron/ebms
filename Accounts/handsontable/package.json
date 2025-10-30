@@ -1,0 +1,82 @@
+{
+  "name": "handsontable",
+  "private": true,
+  "description": "Handsontable is a JavaScript Spreadsheet Component available for React, Angular and Vue.",
+  "homepage": "https://handsontable.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/handsontable/handsontable.git"
+  },
+  "bugs": {
+    "url": "https://github.com/handsontable/handsontable/issues"
+  },
+  "author": "Handsoncode <hello@handsontable.com>",
+  "scripts": {
+    "in": "cross-env-shell COMMAND_ENV=in node --experimental-json-modules scripts/translate-to-native-npm.mjs",
+    "all": "cross-env-shell COMMAND_ENV=all node --experimental-json-modules scripts/translate-to-native-npm.mjs",
+    "clean:node_modules": "node --experimental-json-modules ./scripts/clean-node-modules.mjs",
+    "lint": "npm run eslint && npm run all lint -- --if-present",
+    "eslint": "eslint .github/scripts/ bin/changelog scripts/",
+    "test": "npm run all test -- -e=examples",
+    "build": "npm run all build -- -e=examples",
+    "build:codesandbox": "node --experimental-json-modules scripts/codesandbox-ci.mjs",
+    "freeze": "node --experimental-json-modules scripts/freeze.mjs",
+    "release": "node --experimental-json-modules scripts/release.mjs",
+    "changelog": "bin/changelog",
+    "publish-all": "npm run all publish-package",
+    "prein": "npm run swap-package-links",
+    "preall": "npm run swap-package-links",
+    "swap-package-links": "node --experimental-json-modules ./scripts/swap-package-links.mjs handsontable",
+    "examples:version": "node examples/scripts/code-examples.mjs version",
+    "examples:install": "node examples/scripts/code-examples.mjs install",
+    "examples:build": "node examples/scripts/code-examples.mjs build",
+    "examples:test": "node examples/scripts/code-examples.mjs test",
+    "examples:start": "http-server ./examples/tmp"
+  },
+  "devDependencies": {
+    "@actions/core": "^1.2.6",
+    "@actions/github": "^4.0.0",
+    "@babel/cli": "^7.8.3",
+    "@babel/core": "^7.11.4",
+    "@babel/eslint-parser": "^7.13.14",
+    "@babel/eslint-plugin": "^7.13.16",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
+    "@babel/plugin-syntax-import-assertions": "^7.16.7",
+    "@babel/plugin-transform-runtime": "^7.11.0",
+    "@babel/polyfill": "^7.8.3",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/register": "^7.8.3",
+    "@babel/runtime": "^7.11.2",
+    "@babel/types": "^7.12.12",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^11.0.0-beta.2",
+    "babel-plugin-forbidden-imports": "^0.1.2",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "babel-plugin-transform-require-ignore": "^0.1.1",
+    "chalk": "^4.1.0",
+    "cross-env": "^5.0.1",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsdoc": "^32.3.3",
+    "execa": "^5.0.0",
+    "fs-extra": "^4.0.2",
+    "inquirer": "^7.3.3",
+    "jsdom-global": "^3.0.2",
+    "moment": "2.29.4",
+    "replace-in-file": "^6.1.0",
+    "rimraf": "^2.5.4",
+    "semver": "^5.7.1",
+    "yargs": "^16.2.0"
+  },
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "resolutions": {
+    "babel-core": "7.0.0-bridge.0"
+  },
+  "workspaces": [
+    "handsontable",
+    "wrappers/*",
+    "examples"
+  ]
+}

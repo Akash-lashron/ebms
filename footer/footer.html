@@ -1,0 +1,39 @@
+	<!--==============================footer=================================-->
+
+  	<script src="js/Resize-Page-Auto.js"></script> 
+	<footer style="background:#046CA8">
+    	<div class="container_12" style="background:#046CA8">
+        	<div class="grid_12">
+            	<div class="copy" style="font-size:10px; padding:5px; color:#FFFFFF">
+                	<!-- &copy; 2016 | <a href="">Privacy Policy</a> &nbsp; | &nbsp; <a href="" rel="nofollow">lashron.com</a>-->
+					Designed & Developed by Lashron Technologies :: Copyright of FRFCF, NRB, DAE, Kalpakkam. Unauthorized distribution and/or duplication is prohibited
+            	</div>
+       		</div>
+    	</div>
+	</footer>
+	<link rel="stylesheet" type="text/css" media="screen" href="dataTable/jquery.dataTables.min.css" />
+	<script type="text/javascript" src="dataTable/jquery.dataTables.min.js"></script>
+	<style>
+		.dataTable th{
+			text-align:center !important;
+		}
+		.dataTables_wrapper{
+			font-family:Verdana, Arial, Helvetica, sans-serif !important;
+		}
+	</style>
+	<script type="text/javascript">
+		/*if(window.history.replaceState ) {
+			window.history.replaceState( null, null, window.location.href );
+		}*/
+		$(document).ready(function(){      
+		   resizeChosen();
+		   jQuery(window).on('resize', resizeChosen);
+		});
+		
+		function resizeChosen() {
+		   $(".chosen-container").each(function() {
+			   //$(this).attr('style', 'width: 100%');
+		   });          
+		}
+	</script>
+	

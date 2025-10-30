@@ -1,0 +1,411 @@
+A
+{
+    BACKGROUND-COLOR: transparent;
+    COLOR: black;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold;
+    TEXT-DECORATION: none
+}
+A:link
+{
+    BACKGROUND-COLOR: transparent;
+    COLOR: black;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold;
+    TEXT-DECORATION: none
+}
+A:active
+{
+    BACKGROUND-COLOR: transparent;
+    COLOR: black;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold;
+    TEXT-DECORATION: none
+}
+A:visited
+{
+    BACKGROUND-COLOR: transparent;
+    COLOR: black;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold;
+    TEXT-DECORATION: none
+}
+A:unknown
+{
+    COLOR: black;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold;
+    TEXT-DECORATION: none
+}
+A:hover
+{
+    COLOR: navy;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold;
+    TEXT-DECORATION: none
+}
+.BODYst
+{
+    BACKGROUND-ATTACHMENT: fixed;
+	background-repeat:repeat-x;
+    BACKGROUND-IMAGE: url(../images/greybg.jpg);
+    COLOR: black;
+    MARGIN: 0px
+}
+.topBODYst
+{
+    BACKGROUND-COLOR:#003366;
+}
+.igbody
+{
+    /*BACKGROUND-COLOR:#336699;*/
+    BACKGROUND-COLOR:#94C7E2;
+}
+.leftBODYst
+{
+    BACKGROUND-ATTACHMENT: fixed;
+    BACKGROUND-IMAGE: url(../images/greymainbg.jpg);
+    MARGIN: 0px
+}
+.iframebody
+{
+    BACKGROUND-ATTACHMENT: fixed;
+    BACKGROUND-IMAGE: url(../images/greylight.jpg);
+    MARGIN: 0px
+}
+.spanstyle
+{
+    COLOR: #708090;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold;
+    POSITION: absolute;
+    TOP: -50px;
+    VISIBILITY: visible
+}
+
+.labletxt
+{
+    COLOR: black;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 9pt
+}
+
+.labletxt_print
+{
+    COLOR: black;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 10pt
+}
+
+.labletxt1
+{
+    COLOR: black;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 7pt
+}
+
+.labletxtbold
+{
+    COLOR:#660000;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+	font-weight: 900
+}
+
+.labletxtred
+{
+    COLOR: #660033;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt
+}
+
+.user_claim_print
+{
+    COLOR: black;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 7pt
+}
+
+.colhead
+{
+    COLOR: black;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold;
+    TEXT-ALIGN: center
+}
+
+.colheadsmall
+{
+    COLOR: #0000FF;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 9pt;
+    TEXT-ALIGN: left
+}
+
+.colheadsmallbold
+{
+    COLOR: #660000 ;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    TEXT-ALIGN: left;
+	font-weight:bold
+}
+
+.colheadsmall1
+{
+    COLOR:#0000FF;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    TEXT-ALIGN: center
+}
+
+.colheadleft
+{
+    COLOR: black;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold
+}
+.head1
+{
+    COLOR: #0000FF;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 10pt;
+    FONT-WEIGHT: bold
+}
+.headhglt
+{
+    BACKGROUND-COLOR: darkblue;
+    COLOR: white;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 10pt;
+    FONT-WEIGHT: bold
+}
+.txtstyle
+{
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 10pt
+}
+.tablest
+{
+    leftmargin: 0;
+    rightmargin: 0;
+    topmargin: 0;
+    bottommargin: 0
+}
+.colhead1
+{
+    COLOR: #0000FF;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold;
+    TEXT-ALIGN: center;
+}
+.dislablebutton
+{
+    COLOR: lavender;
+    FONT-FAMILY: Verdana
+}
+.distext
+{
+    BACKGROUND-COLOR: #dcdcdc
+}
+.enatext
+{
+    BACKGROUND-COLOR: white
+}
+.title_white
+{
+    COLOR: #eeebf7;
+    FONT-FAMILY: Arial, Helvetica, san-serif;
+    FONT-SIZE: 16px;
+    FONT-STYLE: normal;
+    FONT-VARIANT: normal;
+    FONT-WEIGHT: bold;
+    TEXT-DECORATION: none;
+    TEXT-TRANSFORM: none
+}
+.txt_white
+{
+    COLOR: white;
+    FONT-FAMILY: Verdana, Arial, Helvetica, san-serif;
+    FONT-SIZE: 9px;
+    FONT-STYLE: normal;
+    FONT-VARIANT: normal;
+    TEXT-DECORATION: none;
+    TEXT-TRANSFORM: none
+}
+.head_white
+{
+    BACKGROUND-COLOR: black;
+    COLOR: white;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 10pt;
+    FONT-WEIGHT: bold
+}
+.colhead_white
+{
+    BACKGROUND-COLOR: black;
+    COLOR: white;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold;
+    TEXT-ALIGN: center
+}
+.Disabledtxt
+{
+    COLOR: gray;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt;
+    FONT-WEIGHT: bold;
+    TEXT-DECORATION: none
+}
+.labletxt_white
+{
+    COLOR: white;
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 8pt
+}
+.txtbox
+{
+    BORDER-BOTTOM: 1px solid;
+    BORDER-LEFT: 1px solid;
+    BORDER-RIGHT: 1px solid;
+    BORDER-TOP: 1px solid
+}
+.txtboxnone
+{
+    BORDER-BOTTOM: medium none;
+    BORDER-LEFT: medium none;
+    BORDER-RIGHT: medium none;
+    BORDER-TOP: medium none;
+    TEXT-ALIGN: right
+}
+.dpDiv
+ {
+        
+}
+.dpTable 
+{
+    BORDER-RIGHT: #aaaaaa 1px solid;
+    BORDER-TOP: #aaaaaa 1px solid; FONT-SIZE: 12px; 
+    BORDER-LEFT: #aaaaaa 1px solid; COLOR: #505050; 
+    BORDER-BOTTOM: #aaaaaa 1px solid;
+    FONT-FAMILY: Tahoma, Arial, Helvetica, sans-serif; 
+    BACKGROUND-COLOR: #ece9d8; 
+    TEXT-ALIGN: center
+}
+.dpTR {
+        
+}
+.dpTitleTR {
+        
+}
+.dpDayTR {
+        
+}
+.dpTodayButtonTR {
+        
+}
+.dpTD {
+   BORDER-RIGHT: #ece9d8 1px solid;
+   BORDER-TOP: #ece9d8 1px solid;
+   BORDER-LEFT: #ece9d8 1px solid; 
+   BORDER-BOTTOM: #ece9d8 1px solid
+}
+.dpDayHighlightTD {
+  BORDER-RIGHT: #aaaaaa 1px solid;
+  BORDER-TOP: #aaaaaa 1px solid;
+  BORDER-LEFT: #aaaaaa 1px solid; 
+  BORDER-BOTTOM: #aaaaaa 1px solid;
+  BACKGROUND-COLOR: #cccccc
+}
+.dpTDHover {
+  BORDER-RIGHT: #888888 1px solid;
+  BORDER-TOP: #888888 1px solid; 
+  BORDER-LEFT: #888888 1px solid;
+  CURSOR: pointer; COLOR: red;
+  BORDER-BOTTOM: #888888 1px solid;
+  BACKGROUND-COLOR: #aca998
+}
+.dpTitleTD {
+        
+}
+.dpButtonTD {
+        
+}
+.dpTodayButtonTD {
+        
+}
+.dpDayTD {
+  BORDER-RIGHT: #aaaaaa 1px solid; 
+  BORDER-TOP: #aaaaaa 1px solid; 
+  BORDER-LEFT: #aaaaaa 1px solid; 
+  COLOR: white; 
+  BORDER-BOTTOM: #aaaaaa 1px solid;
+  BACKGROUND-COLOR: #cccccc
+}
+.dpTitleText {
+  FONT-WEIGHT: bold; 
+  FONT-SIZE: 12px;
+  COLOR: gray
+}
+.dpDayHighlight {
+  FONT-WEIGHT: bold;
+  COLOR: #4060ff
+}
+.dpButton {
+ PADDING-RIGHT: 0px;
+ PADDING-LEFT: 0px; 
+ FONT-WEIGHT: bold;
+ FONT-SIZE: 10px; 
+ BACKGROUND: #d8e8ff;
+ PADDING-BOTTOM: 0px; COLOR: gray;
+ PADDING-TOP: 0px;
+ FONT-FAMILY: Verdana, Tahoma, Arial, Helvetica, sans-serif
+}
+.dpTodayButton 
+{
+ FONT-WEIGHT: bold; 
+ FONT-SIZE: 10px; 
+ BACKGROUND: #d8e8ff;
+ COLOR: gray;
+ FONT-FAMILY: Verdana, Tahoma, Arial, Helvetica, sans-serif
+}
+
+.blue_css
+{
+	color:#0000FF;
+	font-family:arial;
+	font-weight:bold;
+	font-size:16px;
+}
+.blue_css2
+{
+	color:#990000;
+	font-family:arial;
+	font-stretch:condensed;
+	font-size:16px;
+}
+.blue_css3
+{
+	color:#990000;
+	font-family:arial;
+	font-stretch:condensed;
+	font-size:14px;
+}
+.blue_css1
+{
+	color:#660000;
+	font-family:arial;
+	font-weight:bold;
+	font-size:16px;
+}

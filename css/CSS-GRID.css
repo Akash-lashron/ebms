@@ -1,0 +1,124 @@
+.main-content {
+	display: grid;
+  	grid-template-columns: repeat(12, 1fr);
+  	font-family:Verdana, Arial, Helvetica, sans-serif;
+  	font-size:12px;
+  	color:#0141B8;
+	color:#0F04DD;
+	color:#00008B;
+	/*font-weight:600;*/
+	font-size:12px;
+}
+.main-content input, textarea{
+  	font-family:Verdana, Arial, Helvetica, sans-serif !important;
+}
+.grid1 { grid-column: span 1; padding:0px 4px; }
+.grid2 { grid-column: span 2; padding:0px 4px; }
+.grid3 { grid-column: span 3; padding:0px 4px; }
+.grid4 { grid-column: span 4; padding:0px 4px; }
+.grid5 { grid-column: span 5; padding:0px 4px; }
+.grid6 { grid-column: span 6; padding:0px 4px; }
+.grid7 { grid-column: span 7; padding:0px 4px; }
+.grid8 { grid-column: span 8; padding:0px 4px; }
+.grid9 { grid-column: span 9; padding:0px 4px; }
+.grid10 { grid-column: span 10; padding:0px 4px; }
+.grid11 { grid-column: span 11; padding:0px 4px; }
+.grid12 { grid-column: span 12; padding:0px 4px; }
+.grid-textarea{
+	width:99%;
+	padding:2px;
+	border:1px solid #CECECE;
+	background:#ffffff;
+	border-radius:5px;
+	height:40px;
+	font-size:12px;
+	color:#0000CC;
+	/*0080FF*/
+}
+.main-content input[type=text]/*, select*/{
+	width:99%;
+	padding:2px;
+	border:1px solid #CECECE;
+	background:#ffffff;
+	border-radius:2px;
+	height:20px;
+	font-size:12px;
+	color:#0000CC;
+}
+.grid-empty{
+	height:15px;
+}
+html{
+	scrollbar-width: none;
+	scrollbar-color:#C3C3C3 #fff;
+}
+html::-webkit-scrollbar-track{
+	background-color: #fff;
+}
+html::-webkit-scrollbar{
+	width: 0px;
+	background-color: #fff;
+}
+html::-webkit-scrollbar-thumb{
+	background-color:#383939;
+}
+
+
+.main-content-head{
+	padding:6px 12px;
+	background:#02569B; 
+	color:#FFFFFF;
+	border:1px solid #02569B;
+	display:block;
+	border-radius:5px 5px 0px 0px;
+}
+.main-content-body{
+	padding:9px 19px 3px 10px !important;
+	border:1px solid #A6AAAE;
+	border-top:hidden;
+	border-radius:0px 0px 5px 5px;
+}
+.inputGroup label::after{
+	content: '';
+}
+.inputGroup label{
+	font-weight:normal;
+	color:#023FDF;
+}
+.bootstrap-dialog-footer-buttons > .btn-default{
+	background:#E1044B;
+	padding:4px 12px;
+	font-weight:bold;
+	border:1px solid #E1044B;
+	letter-spacing:1px;
+	font-size:14px;
+	cursor:pointer;
+}
+.bootstrap-dialog-footer-buttons > .btn-default:hover{
+	background:#AD0239;
+	border:1px solid #AD0239;
+}
+.no-padding-lr{
+	padding-left:0px;
+	padding-right:0px;
+}
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid #21A0FE;
+    padding: 1px !important;
+	width:29%;
+}
+
+.bootstrap-dialog-footer-buttons > .btn-primary {
+  background: #075BB0;
+  padding: 4px 12px;
+  font-weight: bold;
+  border: 1px solid #075BB0;
+  letter-spacing: 1px;
+  font-size: 14px;
+  cursor: pointer;
+  color:#fff;
+}
+.bootstrap-dialog-footer-buttons > .btn-primary:hover{
+	background:#023D78;
+	border:1px solid #023D78;
+}

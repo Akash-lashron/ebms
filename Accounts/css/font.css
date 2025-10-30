@@ -1,0 +1,390 @@
+/* CSS Document */
+
+
+.login
+{
+	font-family: Tahoma, Verdana, Arial, Helvetica;
+	font-size: 10px;
+	color:#666666;
+	text-decoration: none;
+}
+
+
+.logout
+{
+	font-family: Tahoma, Verdana, Arial, Helvetica;
+	font-size: 10px;
+	color:#666666;
+	text-decoration: none;
+}
+
+.heading
+{
+	font-family:Verdana;
+	font-size:10pt;
+	font-weight:bold;
+	color:#142400;
+	vertical-align: middle;
+	color:#ffffff;
+}
+
+
+.color1
+{
+	background-color:#F1F1F1;
+	border-width:1px;
+	border-style:solid;
+	border-color:#B8B9B9;
+}
+
+.color2
+{
+	background-color:#E1E1E1;
+	border-color:#333333;
+}
+.color2 td{
+	border: 1px solid #B8B9B9;
+}
+.color3
+{
+	background-color:#E1E1E1;
+	border-width:1px;
+	border-style:solid;
+	border-color:#B8B9B9;
+}
+
+.labelfield
+{
+	font-family:Verdana;
+	font-size:10pt;
+}
+
+.labelfieldcenter
+{
+	font-family:Verdana;
+	font-size:10pt;
+	text-align:center;
+}
+
+.labelfieldright
+{
+	font-family:Verdana;
+	font-size:10pt;
+	text-align:right;
+}
+.labelfieldPrint
+{
+	font-family:Verdana;
+/*	font-size:10pt;
+*/	font-size:13pt;
+}
+
+.labelfieldcenterPrint
+{
+	font-family:Verdana;
+/*	font-size:10pt;
+*/	font-size:13pt;
+	text-align:center;
+}
+
+.labelfieldrightPrint
+{
+	font-family:Verdana;
+/*	font-size:10pt;
+*/	font-size:13pt;
+	text-align:right;
+}
+/*
+
+.color1
+{
+	background-color:#b3b2b2;
+}
+
+.color2
+{
+	background-color:#c2c1c1;
+}
+
+.color3
+{
+	background-color:#c2c1c1;
+	border-width:1px;
+	border-style:solid;
+}
+
+.labelfield
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:#000000;
+	background-color:#e4e3e3;
+}
+
+.labelfieldcenter
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:#000000;
+	background-color:#e4e3e3;
+	text-align:center;
+}
+
+.labelfieldright
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:#000000;
+	background-color:#e4e3e3;
+	text-align:right;
+}
+
+*/
+
+.label
+{
+	font-family:Verdana;
+	font-size:10pt;
+	text-align:justify;
+	color:#000000;
+}
+.labelPrint
+{
+	font-family:Verdana;
+/*	font-size:11pt;
+*/	font-size:13pt;
+	color:#000000;
+}
+.labelleft
+{
+	font-family:Verdana;
+	font-size:10pt;
+	text-align:left;
+	color:#000000;
+}
+
+.labelbold
+{
+	font-family:Verdana;
+	font-size:10pt;
+	font-weight:bold;
+	color:#000000;
+}
+.labelboldPrint
+{
+	font-family:Verdana;
+/*	font-size:11pt;
+*/	font-size:13pt;
+	font-weight:bold;
+	color:#000000;
+}
+
+
+.labelcenter
+{
+	font-family:Verdana;
+	font-size:10pt;	
+	color:#000000;
+	text-align:center;
+}
+.labelcenterPrint
+{
+	font-family:Verdana;
+/*	font-size:11pt;
+*/	font-size:13pt;
+	color:#000000;
+	text-align:center;
+}
+
+.labelboldcenter
+{
+	font-family:Verdana;
+	font-size:10pt;
+	font-weight:bold;
+	color:#000000;
+	text-align:center;
+}
+
+.labelboldcenterPrint
+{
+	font-family:Verdana;
+/*	font-size:11pt;
+*/	font-size:13pt;
+	font-weight:bold;
+	color:#000000;
+	text-align:center;
+}
+
+.labelright
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:#000000;
+	text-align:right;
+}
+.labelrightPrint
+{
+	font-family:Verdana;
+/*	font-size:11pt;
+*/	font-size:13pt;
+	color:#000000;
+	text-align:right;
+}
+
+.labelboldright
+{
+	font-family:Verdana;
+	font-size:10pt;
+	font-weight:bold;
+	color:#000000;
+	text-align:right;
+}
+.labelboldrightPrint
+{
+	font-family:Verdana;
+/*	font-size:11pt;
+*/	font-size:13pt;
+	font-weight:bold;
+	color:#000000;
+	text-align:right;
+}
+.labelboldleft
+{
+	font-family:Verdana;
+	font-size:10pt;
+	font-weight:bold;
+	color:#000000;
+	text-align:left;
+}
+.labelboldleftPrint
+{
+	font-family:Verdana;
+/*	font-size:11pt;
+*/	font-size:13pt;
+	font-weight:bold;
+	color:#000000;
+	text-align:left;
+}
+
+.labeljustify
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:#000000;
+	text-align:justify;
+}
+.labeljustifyPrint
+{
+	font-family:Verdana;
+/*	font-size:11pt;
+*/	font-size:13pt;
+	color:#000000;
+	text-align:justify;
+}
+
+.labelboldjustify
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:#000000;
+	text-align:justify;
+	font-weight:bold;
+}
+.labelboldjustifyPrint
+{
+	font-family:Verdana;
+/*	font-size:11pt;
+*/	font-size:13pt;
+	color:#000000;
+	text-align:justify;
+	font-weight:bold;
+}
+
+.text
+{
+	font-family:Verdana;
+	font-size:10pt;
+}
+.textPrint
+{
+	font-family:Verdana;
+/*	font-size:11pt;
+*/	font-size:13pt;
+}
+
+
+.white
+{
+	font-family:Verdana;
+	color:#FFFFFF;
+	font-size:10pt;
+}
+
+.black
+{
+	font-family:Verdana;
+	color:#000000;
+	font-size:10pt;
+}
+
+.green
+{
+	font-family:Verdana;
+	color:#294e00;
+	font-size:10pt;
+	font-weight:bold;
+}
+
+.menunormal
+{
+	font-family: Tahoma, Verdana, Arial, Helvetica;
+	font-size: 7pt;
+	color: #000000;
+	text-decoration: none;
+}
+
+.menuover
+{
+	font-family: Tahoma, Verdana, Arial, Helvetica;
+	font-size: 7pt;
+	color: #ffffff;
+	text-decoration: underline;
+}
+
+.green
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:#2a4e02;
+}
+
+.blue
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:#025092;
+	font-weight:bold;
+}
+
+.maroon_left
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:#990000;
+	text-align:left;
+}
+
+.maroon_right
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:#990000;
+	text-align:right;
+}
+
+.bluefont
+{
+	font-family:Verdana;
+	font-size:10pt;
+	color:blue;
+}

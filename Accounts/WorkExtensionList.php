@@ -1,0 +1,162 @@
+<?php
+@ob_start();
+require_once 'library/config.php';
+require_once 'library/functions.php';
+require_once 'library/binddata.php';
+require_once 'common.php';//include "common.php";
+checkUser();
+function dt_format($ddmmyyyy) {
+    $dt = explode('/', $ddmmyyyy);
+    $dd = $dt[0];
+    $mm = $dt[1];
+    $yy = $dt[2];
+    return $yy . '-' . $mm . '-' . $dd;
+}
+function dt_display($ddmmyyyy) {
+    $dt = explode('-', $ddmmyyyy);
+    $dd = $dt[2];
+    $mm = $dt[1];
+    $yy = $dt[0];
+    return $dd . '/' . $mm . '/' . $yy;
+}
+$msg = ''; $Scount = 0;
+$sheetid = $_SESSION['Sheetid'];
+$staffid = $_SESSION['sid'];
+if(($_SESSION['isadmin'] == 1)||($_SESSION['staff_section'] == 2)){
+	$SelectSheetQuery = "select a.*, b.work_orders_ext from sheet a left join work_orders_ext b on (a.sheet_id = b.sheetid) where (a.active = 1 OR a.active = 2) and (b.ext_id IS NULL OR b.ext_id = (select max(c.ext_id) from work_orders_ext c where c.sheetid = a.sheet_id)) ORDER BY a.short_name ASC";
+}else{
+	$SelectSheetQuery = "select a.*, b.work_orders_ext from sheet a left join work_orders_ext b on (a.sheet_id = b.sheetid) where (a.active = 1 OR a.active = 2) and (b.ext_id IS NULL OR b.ext_id = (select max(c.ext_id) from work_orders_ext c where c.sheetid = a.sheet_id)) and CONCAT(',' ,a.assigned_staff, ',') LIKE '%,$staffid,%' ORDER BY a.short_name ASC";
+}
+//echo $SelectSheetQuery;exit;
+$SelectSheetSql   = mysqli_query($dbConn,$SelectSheetQuery);
+if($SelectSheetSql == true){
+  if(mysqli_num_rows($SelectSheetSql)>0){
+	 $Scount  =1;
+  }
+}
+?>
+<link rel="stylesheet" href="dashboard/MyView/bootstrap.min.css">
+<?php include "Header.html"; ?>
+<script src="dashboard/MyView/bootstrap.min.js"></script>
+<style>
+.container{
+		width:100%;
+		border-collapse: collapse;
+	}
+		
+	.table-row{  
+		display:table-row;
+		text-align: left;
+	}
+	.col{
+		display:table-cell;
+		border: 1px solid #CCC;
+	}
+.circle {
+    background: #19bc8b ;
+    color: #fff;
+    display: block;
+    padding: 3px 8px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 10px;
+}
+.circle:hover {
+    background: #EC2951;
+	color:#fff;
+}
+</style>
+<SCRIPT type="text/javascript">
+		window.history.forward();
+		function noBack() { window.history.forward(); }
+</SCRIPT>
+<body class="page1" id="top" oncontextmenu="return false"onload="noBack();" onpageshow="if (event.persisted) noBack();" onUnload="">
+	<!--==============================header=================================-->
+	<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" name="phuploader">
+		<?php include "Menu.php"; ?>
+		<!--==============================Content=================================-->
+		<div class="content">
+			<div class="title">Works Extension List</div>
+			<div class="container_12">
+				<div class="grid_12">
+					<blockquote class="bq1" style="overflow:auto">
+						<div class="container" align="center">
+							<table class="table-bordered table1" align="center" id="dataTable">
+								<thead>
+									<tr>
+										<th align="center" valign="middle">SlNo.</th>
+										<th align="center" valign="middle" nowrap="nowrap">CC No.</th>
+										<th align="left" valign="middle" style="width:15%">WO No.</th>
+										<th align="center" valign="middle">Name Of Work</th>
+										<th align="center" valign="middle" nowrap="nowrap">Cost of Work &#x20B9;</th>
+										<th align="center" valign="middle" nowrap="nowrap">Contractor Name</th>
+										<th align="center" valign="middle" nowrap="nowrap">Work Commence Date</th>
+										<th align="center" valign="middle" nowrap="nowrap">Schedule D.O.C</th>
+										<th align="center" valign="middle" nowrap="nowrap">Work Extension</th>
+										<th align="center" valign="middle" nowrap="nowrap">Action</th>
+									</tr>
+								</thead>
+								<tbody>
+								    <?php $sno = 1;  if ($Scount==1) { while($SList = mysqli_fetch_object($SelectSheetSql)){
+										  $SheetId = $SList->sheet_id;
+									?>
+									<tr>
+										<td align="center"><?php echo $sno ?></td>
+										<td align="center"><?php echo $SList->computer_code_no; ?></td>
+										<td align="center"><?php echo $SList->work_order_no; ?></td>
+										<td align="left" valign="middle" style="text-align: justify; text-justify: inter-word; width:25%"><?php echo $SList->work_name; ?></td>
+										<td align="right" valign="middle"><?php echo IND_money_format($SList->work_order_cost); ?></td>
+										<td align="left" valign="middle" style="text-align: justify; text-justify: inter-word;"><?php echo $SList->name_contractor; ?></td>
+										<td align="center" valign="middle"><?php echo dt_display($SList->work_commence_date); ?></td>
+										<td align="center" valign="middle"><?php echo dt_display($SList->date_of_completion); ?></td>
+										<td align="center" valign="middle"><?php if(($SList->work_orders_ext != '')&&($SList->work_orders_ext != NULL)){ echo dt_display($SList->work_orders_ext); } ?></td>
+										<td align="center" valign="middle" nowrap="nowrap">
+											<a href="WorkExtension.php?id=<?php echo $SList->sheet_id; ?>" class="ActBtn" name="btnExtend" id="btnExtend"> View & Extend </a>
+										</td>
+									</tr>
+								    <?php $sno++; } } ?>
+								</tbody>
+							</table>
+						</div>
+						<!--<div style="text-align:center; height:45px; line-height:45px;" class="printbutton">
+							<div class="buttonsection"><input type="button" name="back" id="back" value="Back" class="backbutton"></div>
+						</div>-->
+					</blockquote>
+				</div>
+			</div>
+		</div>
+		<!--==============================footer=================================-->
+		<?php include "footer/footer.html"; ?>
+	</form>
+</body>
+</html>
+<script>
+	$(document).ready(function() {
+		$('#dataTable').DataTable({
+			responsive: true,
+			paging: true,
+		});
+		$('#back').click(function(){
+			$(location).attr('href', 'MyView.php')
+		});
+	});
+</script>
+<style>
+	/*#dataTable_wrapper{
+		width:75% !important;
+	}*/
+	table.table3.dataTable thead th{
+	    text-align:left !important;
+	}
+	.dataTables_wrapper{
+		width:95% !important;
+	}
+	#dataTable th, td{
+		font-size:11px;
+		line-height:18px;
+		padding:3px;
+	}
+	#dataTable th{
+		padding:5px;
+	}
+</style>

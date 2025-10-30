@@ -1,0 +1,6 @@
+EBMS SECTION
+
+1. staff_section used for => module for user access (billing, budget, accounts, tendering)
+2. discipline used for => main sections (CIVIL, ELECT, MECH)
+3. sub_section used for => sub section under main sections
+4. section code used for => combined abstract for mega projects

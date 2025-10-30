@@ -1,0 +1,257 @@
+<?php
+@ob_start();
+require_once 'library/config.php';
+require_once 'library/functions.php';
+require_once 'library/binddata.php';
+include "common.php";
+$PageName = $PTPart1.$PTIcon.'PG View';
+$staffid  = $_SESSION['sid'];
+$UserId  = $_SESSION['userid'];
+checkUser();
+$success = 0;
+function dt_display($ddmmyyyy)
+{
+	$dt=explode('-',$ddmmyyyy);
+	$dd=$dt[2];
+	$mm=$dt[1];
+	$yy=$dt[0];
+	return $dd .'/'. $mm .'/'.$yy;
+}
+$RowCount = 0; $EmDDataArr = array(); $RowSpanArr = array();
+if($_SESSION['isadmin'] == 1){
+	$MasterQuery = "SELECT a.*, b.*, c.tr_no, c.work_name, c.ccno, c.eic, d.name_contractor FROM loi_entry a 
+				INNER JOIN bg_fdr_details b ON (a.loa_pg_id = b.master_id) INNER JOIN tender_register c ON (a.tr_id = c.tr_id) 
+				INNER JOIN contractor d ON (a.contid = d.contid) WHERE b.inst_purpose='PG' AND b.inst_status !='R' ORDER BY a.tr_id ASC, a.contid ASC ,b.bfdid asc";
+}else{
+	$MasterQuery = "SELECT a.*, b.*, c.tr_no, c.work_name, c.ccno, c.eic, d.name_contractor FROM loi_entry a 
+				INNER JOIN bg_fdr_details b ON (a.loa_pg_id = b.master_id) INNER JOIN tender_register c ON (a.tr_id = c.tr_id) 
+				INNER JOIN contractor d ON (a.contid = d.contid) WHERE b.inst_purpose='PG' AND b.inst_status !='R' AND  
+				(c.eic = '".$_SESSION['sid']."' OR c.created_by = '".$_SESSION['userid']."') ORDER BY a.tr_id ASC, a.contid ASC ,b.bfdid asc";
+}
+//echo $MasterQuery;exit;
+$MasterResult = mysqli_query($dbConn,$MasterQuery);
+if($MasterResult == true){
+	if(mysqli_num_rows($MasterResult)>0){
+		$RowCount = 1;
+		while($List = mysqli_fetch_object($MasterResult)){
+			if(isset($RowSpanArr[$List->tr_id][$List->contid])){
+				$RowSpanArr[$List->tr_id][$List->contid] = $RowSpanArr[$List->tr_id][$List->contid] + 1;
+			}else{
+				$RowSpanArr[$List->tr_id][$List->contid] = 1;
+			}
+			$PGDataArr[] = $List;
+		}
+	}
+}
+/*
+if(isset($_POST['back']))
+{
+	header('Location: PGEntry.php');
+}
+*/
+//print_r($EmDDataArr);exit;
+?>
+<link rel="stylesheet" href="dashboard/MyView/bootstrap.min.css">
+<?php include "Header.html"; ?>
+<script src="dashboard/MyView/bootstrap.min.js"></script>
+<script type="text/javascript" language="javascript">
+</script>
+    <body class="page1" id="top" oncontextmenu="return false"onload="noBack();" onpageshow="if (event.persisted) noBack();" onUnload="">
+        <!--==============================header=================================-->
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" name="form" id="form1">
+            <?php include "Menu.php"; ?>
+            <!--==============================Content=================================-->
+			<div class="content">
+				<?php include "MainMenu.php"; ?>
+				<div class="container_12">
+					<div class="grid_12" align="center">
+						<div align="right" class="users-icon-part">&nbsp;</div>
+						<blockquote class="bq1 stable" style="overflow:auto">
+							<div class="row">
+								<div class="box-container box-container-lg" align="center">
+									<div class="div12">
+										<div class="card cabox">
+											<div class="face-static">
+												<div class="card-header inkblue-card" align="center">&nbsp;Performance Guarantee - View</div>
+												<div class="card-body padding-1 ChartCard" id="CourseChart">
+													<div class="divrowbox pt-2">
+														<div class="table-responsive dt-responsive ResultTable">
+															<div class="table-responsive dt-responsive rtabdiv" id="table-stmt">
+																<table id="example" class="display rtable mgtb-8" style="width:100%">
+																	<thead>
+																		<tr>
+																			<th rowspan="2" valign="middle">SNo.</th>
+																			<th rowspan="2" valign="middle">Tender No.</th>
+																			<th rowspan="2" valign="middle">CC No.</th>
+																			<th rowspan="2" valign="middle">Name of Work</th>
+																			<th rowspan="2" valign="middle">PG Amount <br> ( &#8377; )</th>
+																			<th rowspan="2" valign="middle">Contractor Name</th>
+																			<th colspan="10" valign="middle">BG/FDR Details</th>
+																			<th rowspan="2" valign="middle">Action</th>
+																		</tr>
+																		<tr>
+																			<th valign="middle">Instrument Type</th>
+																			<th valign="middle">Instrument No.</th>
+																			<th valign="middle">Bank Name</th>
+																			<th valign="middle">Branch Name</th>
+																			<th valign="middle">Date of Issue</th>
+																			<th valign="middle">Date of Expiry</th>
+																			<th valign="middle">Amount <br> ( &#8377; )</th>
+																			<th valign="middle">Challan<br>No.</th>
+																			<th valign="middle">Challan<br>Date.</th>
+																			<th valign="middle">Drawee<br>Bank</th>
+																		</tr>
+																	</thead>
+																		<tbody>
+																		<?php $SNO = 1; $PrevTrId=""; $PrevContId="";
+																		//$EMDCountArr = array_count_values(array_column($MasterResult, 'inst_type'));
+																				if($RowCount == 1){ foreach($PGDataArr as $PGkey => $PGValue){ 
+																					$ContRowSpan = $RowSpanArr[$PGValue->tr_id][$PGValue->contid];
+																					$RowSpanArr1 = $RowSpanArr[$PGValue->tr_id];
+																					$TrRowspan = array_sum($RowSpanArr1);
+																					$RoundedPgAmt = round(($PGValue->pg_amt),0);
+																					//echo $PGValue->ga_challan_date;
+																					if(($PGValue->ga_challan_date != "")&&($PGValue->ga_challan_date != NULL)){
+																						$GAchallanDtDisp = dt_display($PGValue->ga_challan_date);
+																					}else{
+																						$GAchallanDtDisp = "";
+																					}
+																					if(($PGValue->inst_exp_date != "")&&($PGValue->inst_exp_date != NULL)){
+																						$ExpDtDisp = dt_display($PGValue->inst_exp_date);
+																					}else{
+																						$ExpDtDisp = "";
+																					}
+																					if(($PGValue->inst_date != "")&&($PGValue->inst_date != NULL)){
+																						$InstDtDisp = dt_display($PGValue->inst_date);
+																					}else{
+																						$InstDtDisp = "";
+																					}
+																					if($PrevTrId != $PGValue->tr_id){
+																						$x = 0; $PrevContId = ""; $y = 0;
+																					}
+																					if($PrevContId != $PGValue->contid){
+																						$y = 0;
+																					}
+																					if($x == 0){ 
+																				?>
+																					<tr class='labeldisplay'>
+																			<td rowspan= <?php echo $TrRowspan ?> class='tdrowbold' valign='middle' align='center'><?php echo $SNO; ?></td>
+																			<td rowspan= <?php echo $TrRowspan ?> valign='middle' class='tdrow' align = 'justify'><?php echo $PGValue->tr_no; ?></td>
+																			<td rowspan= <?php echo $TrRowspan ?> valign='middle' class='tdrow' align = 'justify'><?php echo $PGValue->ccno; ?></td>
+																			<td rowspan= <?php echo $TrRowspan ?> valign='middle' class='tdrow' align = 'justify'><?php echo $PGValue->work_name; ?></td> 
+																			<td rowspan= <?php echo $TrRowspan ?> valign='middle' class='tdrow' align = 'right'><?php echo IndianMoneyFormat($RoundedPgAmt); ?></td>
+																			<td rowspan= <?php echo $ContRowSpan ?> class='tdrow' align='left' valign='middle'><?php echo $PGValue->name_contractor; ?></td>
+																			<td class='tdrow' align='center' valign='middle'><?php echo $PGValue->inst_type; ?></td>
+																			<td class='tdrow' align='left' valign='middle'><?php echo $PGValue->inst_serial_no; ?></td>
+																			<td class='tdrow' align='left' valign='middle'><?php echo $PGValue->inst_bank_name; ?></td>
+																			<td class='tdrow' align='left' valign='middle'><?php echo $PGValue->inst_branch_name; ?></td>
+																			<td class='tdrow' align='center' valign='middle'><?php echo $InstDtDisp; ?></td>
+																			<td class='tdrow' align='center' valign='middle'><?php echo $ExpDtDisp; ?></td>
+																			<td class='tdrow' align='right' valign='middle'><?php echo IndianMoneyFormat($PGValue->inst_amt); ?></td>
+																			<td class='tdrow' align='left' valign='middle'><?php echo $PGValue->ga_challan_no; ?></td>
+																			<td class='tdrow' align='center' valign='middle'><?php echo $GAchallanDtDisp; ?></td>
+																			<td class='tdrow' align='left' valign='middle'><?php echo $PGValue->ga_drawee_bank; ?></td>
+																			<?php
+																			if($PGValue->approved_session == 'ACC'){	
+																			?>
+																			<td align='center' rowspan="<?php echo $TrRowspan; ?>" valign='middle' class='tdrow' ><b> Approved By Accounts</td>
+																			<?php
+																			}else{?>
+																			<td align='center' rowspan="<?php echo $TrRowspan; ?>" valign='middle' class='tdrow' ><a data-url="PGEntry?id=<?php echo $PGValue->master_id; ?>" class=" BtnHref btn btn-info" name="View" id="View">Edit</a></td>
+																			<?php
+																			}
+																			?>
+																		</tr>
+																		<?php 
+																				$x++; $y++;  $SNO++;
+																		}else{
+																		?>
+																		<tr class='labeldisplay'>
+																			<?php if($y == 0){ ?>
+																				<td rowspan= <?php echo $ContRowSpan ?> class='tdrow' align='left' valign='middle'><?php echo $PGValue->name_contractor; ?></td>
+																			<?php } ?>
+																			<td class='tdrow' align='center' valign='middle'><?php echo $PGValue->inst_type; ?></td>
+																			<td class='tdrow' align='left' valign='middle'><?php echo $PGValue->inst_serial_no; ?></td>
+																			<td class='tdrow' align='left' valign='middle'><?php  echo $PGValue->inst_bank_name; ?></td>
+																			<td class='tdrow' align='left' valign='middle'><?php  echo $PGValue->inst_branch_name; ?></td>
+																			<td class='tdrow' align='center' valign='middle'><?php echo dt_display($PGValue->inst_date); ?></td>
+																			<td class='tdrow' align='center' valign='middle'><?php echo dt_display($PGValue->inst_exp_date); ?></td>
+																			<td class='tdrow' align='right' valign='middle'><?php echo IndianMoneyFormat($PGValue->inst_amt); ?></td>
+																			<td class='tdrow' align='left' valign='middle'><?php echo $PGValue->ga_challan_no; ?></td>
+																			<td class='tdrow' align='center' valign='middle'><?php echo $GAchallanDtDisp; ?></td>
+																			<td class='tdrow' align='left' valign='middle'><?php echo $PGValue->ga_drawee_bank; ?></td>
+																		</tr>
+																			<?php 
+																				$x++; $y++;
+																			}
+																		?>
+																		<?php $PrevTrId = $PGValue->tr_id; $PrevContId = $PGValue->contid; } } ?>
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div align="center">
+												<!-- <input type="submit" class="btn btn-info" name="back" value="Back"> -->
+												<a href="Home.php" class="btn btn-info" name="btn_back" id="btn_back"> Back </a>
+													<!--<input type="submit" class="btn btn-info" name="btn_save" id="btn_save" value="Save" />-->
+												</div>
+												<div class="clearrowsm">&nbsp;</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</blockquote>
+					</div>
+				</div>
+			</div>
+            <!--==============================footer=================================-->
+           <?php   include "footer/footer.html"; ?>
+            <script src="js/jquery.hoverdir.js"></script>
+        </form>
+    </body>
+</html>
+<script>
+$(document).ready(function(){ 
+	$('#example').DataTable({"paging":false,"ordering": false});
+	$("#exportToExcel").click(function(e){ 
+		var table = $('body').find('.table2excel');
+		if(table.length){ 
+			$(table).table2excel({
+				exclude: ".noExl",
+				name: "Excel Document Name",
+				filename: "SingleLineAbstract-" + new Date().toISOString().replace(/[\-\:\.]/g, "") + ".xls",
+				fileext: ".xls",
+				exclude_img: true,
+				exclude_links: true,
+				exclude_inputs: true
+			});
+		}
+	});
+});
+</script>
+<script>
+	var msg = "<?php echo $msg; ?>";
+	var titletext = "";
+		document.querySelector('#top').onload = function(){
+		if(msg != "")
+		{
+			swal({
+				 title: "",
+				 text: msg,
+				 confirmButtonColor: "#3dae38",
+				 type:"success",
+				 confirmButtonText: " OK ",
+				 closeOnConfirm: false,
+			},
+			function(isConfirm){
+				 if (isConfirm) {
+					url = "ShortDescCreate.php";
+					window.location.replace(url);
+				 }
+			});
+		}
+	};
+</script>

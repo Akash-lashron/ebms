@@ -1,0 +1,208 @@
+/*var getNextSibling=function(e,t){var n=e.nextElementSibling;if(!t)return n;for(;n;){if(n.matches(t))return n;n=n.nextElementSibling}},getPreviousSibling=function(e,t){var n=e.previousElementSibling;if(!t)return n;for(;n;){if(n.matches(t))return n;n=n.previousElementSibling}};function getCommonAncestor(e,t){for(var n=("contains"in e?"contains":"compareDocumentPosition"),a="contains"===n?1:16;e=e.parentNode;)if((e[n](t)&a)===a)return e;return null}function BSMagic(e){var t=document.getElementById(e.id);void 0===e.addButtons&&(e.addButtons=!0),void 0===e.navShape&&(e.navShape="square"),void 0===e.navBackground&&(e.navBackground="blue"),void 0===e.navFontColor&&(e.navFontColor="white"),void 0===e.navUnderline&&(e.navUnderline=!1),void 0===e.navShadow&&(e.navShadow=!1),void 0===e.nextText&&(e.nextText="NEXT"),void 0===e.prevText&&(e.prevText="PREVIOUS"),void 0===e.navOffsetX&&(e.navOffsetX=0),void 0===e.navOffsetY&&(e.navOffsetY=0),void 0===e.isWizard&&(e.isWizard=!1),void 0===e.customNavTabs&&(e.customNavTabs="BSNavTab"),void 0===e.navTabTextOffetX&&(e.navTabTextOffetX=0),void 0===e.navTabTextOffetY&&(e.navTabTextOffetY=0);var n=!1;for(o=(u=t.getElementsByClassName("nav-tabs")).length;o--;)console.log("found nav-tab instead of nav-pill"),u[o].className+=" nav-pills",u[o].style.setProperty("background-color","transparent"),u[o].classList.remove("nav-tabs");console.log(t.getElementsByClassName("nav-pills")[0]),t.getElementsByClassName("nav-pills")[0].classList.contains("flex-column")&&(n=!0);var a=t.getElementsByClassName("nav-pills"),s=a[0].getElementsByClassName("nav-link"),l=a[0].getElementsByClassName("nav-link")[0];l.className+=" active";for(var i=a[0].getElementsByClassName("nav-link"),o=0;o<i.length;o++)i.item(o).setAttribute("data-tab",o),i.item(o).setAttribute("data-parent",e.id);var c=t.getElementsByClassName("tab-pane");for(o=0;o<c.length;o++)c.item(o).setAttribute("data-tabPane",o),c.item(o).setAttribute("data-parent",e.id);var r=s.length;jwidth=100/r,Array.prototype.forEach.call(s,(function(e){e.parentElement.classList.contains("nav-pills")?e.style.width=jwidth+"%":e.parentElement.style.width=jwidth+"%"})),1==n&&(element=t.getElementsByClassName("flex-column")[0],console.log(element),height=element.getBoundingClientRect().height,width=element.getBoundingClientRect().width,elementHeight=height/r,Array.prototype.forEach.call(s,(function(e){e.parentElement.classList.contains("nav-pills")?(e.style.height=elementHeight+"px",e.style.width=width+"px",e.style.textAlign="left"):(e.parentElement.style.height=elementHeight+"px",e.parentElement.style.width=width+"px",e.parentElement.style.textAlign="left")}))),l=t.querySelector(".nav-link.active");var v=t.getElementsByClassName("nav-pills")[0],m=t.getElementsByClassName("tab-pane")[0];getCommonAncestor(v,m).classList+=" BSMagic",window.addEventListener("resize",(function(){ReFresh(t,e)})),window.addEventListener("scroll",(function(){ReFresh(t,e)})),"square"==e.navShape&&(getCommonAncestor(v,m).classList+=" NavShapeSquare"),"oval"==e.navShape&&(getCommonAncestor(v,m).classList+=" NavShapeOval"),"circle"==e.navShape&&(getCommonAncestor(v,m).classList+=" NavShapeCircle"),"blue"==e.navBackground&&(getCommonAncestor(v,m).classList+=" NavBackgroundBlue"),"white"==e.navBackground&&(getCommonAncestor(v,m).classList+=" NavBackgroundWhite"),"clear"==e.navBackground&&(getCommonAncestor(v,m).classList+=" NavBackgroundClear"),"white"==e.navFontColor&&(getCommonAncestor(v,m).classList+=" NavFontWhite"),"blue"==e.navFontColor&&(getCommonAncestor(v,m).classList+=" NavFontBlue"),1==e.navUnderline&&(getCommonAncestor(v,m).classList+=" NavUnderlineBlue"),1==e.navShadow&&(getCommonAncestor(v,m).classList+=" NavBlueShadow"),getCommonAncestor(v,m).classList+=1==n?" BSVertical":" BSHorizontal",1==e.addButtons&&AddButtons(getCommonAncestor(v,m),e),CheckTabLocation(l,t,e),l.parentElement.classList.contains("nav-pills")?Initialize(l,t,e):Initialize(l.parentElement,t,e);var u=t.getElementsByClassName("nav-link");o=0;for(o=0;o<u.length;o++)u[o].addEventListener("click",(function(){var n=t.querySelector(".nav-link.active");if(CheckTabLocation(this,t,e),n.classList.contains("nav-link")&&null!=this){n.classList.remove("active"),this.className+=" active";var a=t.querySelector(".tab-pane.active");nextTabContentNumber=parseInt(this.getAttribute("data-tab"));var s=t.querySelectorAll('[data-tabpane="'+nextTabContentNumber+'"]')[0];a.classList.remove("active"),a.classList.remove("show"),s.className+=" active",s.className+=" show"}JAnimate(n,this,t,e)}));for(u=t.getElementsByClassName("JNextButton"),o=0;o<u.length;o++)u[o].addEventListener("click",(function(){var n=t.querySelector(".nav-link.active"),a=parseInt(n.getAttribute("data-tab"))+1,s=t.querySelectorAll('[data-tab="'+a+'"]')[0];CheckTabLocation(s,t,e),NextTab(n,s,t,e)}));for(u=t.getElementsByClassName("JBackButton"),o=0;o<u.length;o++)u[o].addEventListener("click",(function(){var n=t.querySelector(".nav-link.active"),a=parseInt(n.getAttribute("data-tab"))-1,s=t.querySelectorAll('[data-tab="'+a+'"]')[0];CheckTabLocation(s,t,e),BackTab(n,s,t,e)}));ReFresh(t,e)}function AddButtons(e,t){console.log("Add append buttons as child of:"),console.log(e);var n="<div class='BSMagicButtons col-sm-12' style='justify-content:space-between;'><div class='float-right'> <button type='button' class='btn btn-next btn-fill btn-danger btn-wd square JNextButton' name='next' value='Next' >"+t.nextText+"</button></div><div class='pull-left'><button type='button' class='btn btn-previous btn-fill btn-default btn-wd square JBackButton' name='previous' value='Previous' >"+t.prevText+"</button></div><div class='clearfix'></div></div>";e.insertAdjacentHTML("beforeend",n),e.getElementsByClassName("BSMagicButtons").item(0).setAttribute("data-parent",t.id)}function JAnimate(e,t,n,a){e=e.parentElement.classList.contains("nav-pills")?e:e.parentElement,t=t.parentElement.classList.contains("nav-pills")?t:t.parentElement;var s,l=n.getElementsByClassName(a.customNavTabs);for(s=l.length;s--;)l[s].parentNode.removeChild(l[s]);var i=document.createElement("div"),o=e.getBoundingClientRect(),c=t.getBoundingClientRect();Yoffset=Math.abs(o.top-c.top),Xoffset=Math.abs(o.left-c.left),FullWidth=c.width+Xoffset+29,FullHeight=c.height+Yoffset,i.style.width=o.width,"circle"==a.navShape?i.style.height=o.width+"px":i.style.height=o.height+"px",i.style.position="fixed",i.style.top=parseInt(o.top)+parseInt(a.navOffsetY)-12+"px",i.style.left=parseInt(o.left)+parseInt(a.navOffsetX)+"px",i.style.pointerEvents="none",i.className+=" "+a.customNavTabs,i.innerHTML=t.innerHTML,i.children.length>0&&(i.children[0].style.left=parseInt(a.navTabTextOffetX)+"px",i.children[0].style.top=parseInt(a.navTabTextOffetY)+"px"),e.parentElement.appendChild(i),n.querySelector(".nav-link.active").children.length>0&&(textOffset=n.querySelector(".nav-link.active").children[0],textOffset.style.top=parseInt(a.navTabTextOffetY)+"px",textOffset.style.left=parseInt(a.navTabTextOffetX)+"px");var r=new TimelineLite;r.eventCallback("onComplete",(function(){ReFresh(n,a)})),r.staggerFromTo(n.getElementsByClassName(a.customNavTabs),.5,{y:e.top,x:e.left,width:Math.abs(FullWidth),height:Math.abs(FullHeight)},{y:c.top-o.top,x:c.left-o.left,width:c.width,height:c.height,ease:"back"},.5)}function Initialize(e,t,n){var a=!1;t.getElementsByClassName("nav-pills")[0].classList.contains("flex-column")&&(a=!0);var s=(c=t.getElementsByClassName("nav-pills"))[0].getElementsByClassName("nav-link"),l=s.length;jwidth=100/l,1==a&&(element=t.getElementsByClassName("flex-column")[0],height=element.getBoundingClientRect().height,width=element.getBoundingClientRect().width,elementHeight=height/l,Array.prototype.forEach.call(s,(function(e){e.parentElement.classList.contains("nav-pills")?(e.style.height=elementHeight+"px",e.style.width=width+"px",e.style.textAlign="left"):(e.parentElement.style.height=elementHeight+"px",e.parentElement.style.width=width+"px",e.parentElement.style.textAlign="left")})));var i=e.getBoundingClientRect(),o=document.createElement("div");o.style.width=i.width+"px","circle"==n.navShape?o.style.height=i.width+"px":o.style.height=i.height+"px",o.style.position="fixed",o.style.top=parseInt(i.top)+parseInt(n.navOffsetY)-12+"px",o.style.left=parseInt(i.left)+parseInt(n.navOffsetX)+"px",o.style.pointerEvents="none",o.className+=" "+n.customNavTabs,o.innerHTML=e.innerHTML;var c=t.getElementsByClassName("nav-pills");n.isWizard?getCommonAncestor(t.getElementsByClassName("nav-pills")[0],t.getElementsByClassName("tab-pane")[0]).children[0].style.display="none":c[0].appendChild(o);t.querySelector(".nav-link.active").children.length>0&&(textOffset=t.querySelector(".nav-link.active").children[0],textOffset.style.top=parseInt(n.navTabTextOffetY)+"px",textOffset.style.left=parseInt(n.navTabTextOffetX)+"px")}function ReFresh(e,t){JCurTab=e.querySelector(".nav-link.active");var n,a=e.getElementsByClassName(t.customNavTabs);for(n=a.length;n--;)a[n].parentNode.removeChild(a[n]);JCurTab.parentElement.classList.contains("nav-pills")?Initialize(JCurTab,e,t):Initialize(JCurTab.parentElement,e,t)}function NextTab(e,t,n,a){if(i=CheckTabLocation(e,n,a),e.classList.contains("nav-link")&&null!=t){e.classList.remove("active"),t.className+=" active";var s=n.querySelector(".tab-pane.active"),l=getNextSibling(s);s.classList.remove("active"),s.classList.remove("show"),l.className+=" active",l.className+=" show",JAnimate(e,t,n,a);var i=0;i=CheckTabLocation(t,n,a),console.log(i),3!=i&&13!=i||console.log("LAST TAB: "+i)}else submitClicked(n)}function BackTab(e,t,n,a){if(e.classList.contains("nav-link")&&null!=t){e.classList.remove("active"),t.className+=" active";var s=n.querySelector(".tab-pane.active"),l=getPreviousSibling(s);s.classList.remove("active"),s.classList.remove("show"),l.className+=" active",l.className+=" show",JAnimate(e,t,n,a);CheckTabLocation(t,n,a)}else CheckTabLocation(t,n,a)}function nextButtonOnLastTab(e,t){document.body.contains(e.getElementsByClassName("JNextButton")[0])&&(e.getElementsByClassName("JNextButton")[0].innerHTML="SUBMIT")}function nextButtonNotLastTab(e,t){document.body.contains(e.getElementsByClassName("JNextButton")[0])&&(e.getElementsByClassName("JNextButton")[0].innerHTML=t.nextText)}function backButtonOnFirstTab(e,t){document.body.contains(e.getElementsByClassName("JBackButton")[0])&&(e.getElementsByClassName("JBackButton")[0].style.display="none")}function backButtonNotFirstTab(e,t){document.body.contains(e.getElementsByClassName("JBackButton")[0])&&(e.getElementsByClassName("JBackButton")[0].style.display="block")}function CheckTabLocation(e,t,n){var a=t.getElementsByClassName("nav-link")[0],s=t.getElementsByClassName("nav-link")[t.getElementsByClassName("nav-link").length-1];return e==a==s?(backButtonOnFirstTab(t,n),nextButtonOnLastTab(t,n),13):e!=a&&e!=s?(backButtonNotFirstTab(t,n),nextButtonNotLastTab(t,n),2):e==s?(nextButtonOnLastTab(t,n),backButtonNotFirstTab(t,n),3):e==a?(backButtonOnFirstTab(t,n),nextButtonNotLastTab(t,n),1):void 0}function submitClicked(){console.log("CLICKED SUBMIT")}*/
+var getNextSibling = function(e, t) { 
+        var n = e.nextElementSibling;
+        if (!t) return n;
+        for (; n;) {
+            if (n.matches(t)) return n;
+            n = n.nextElementSibling
+        }
+    },
+    getPreviousSibling = function(e, t) {
+        var n = e.previousElementSibling;
+        if (!t) return n;
+        for (; n;) {
+            if (n.matches(t)) return n;
+            n = n.previousElementSibling
+        }
+    };
+
+function getCommonAncestor(e, t) {
+    for (var n = ("contains" in e ? "contains" : "compareDocumentPosition"), a = "contains" === n ? 1 : 16; e = e.parentNode;)
+        if ((e[n](t) & a) === a) return e;
+    return null
+}
+
+function BSMagic(e) {
+    var t = document.getElementById(e.id);
+    void 0 === e.addButtons && (e.addButtons = !0), void 0 === e.navShape && (e.navShape = "square"), void 0 === e.navBackground && (e.navBackground = "blue"), void 0 === e.navFontColor && (e.navFontColor = "white"), void 0 === e.navUnderline && (e.navUnderline = !1), void 0 === e.navShadow && (e.navShadow = !1), void 0 === e.nextText && (e.nextText = "NEXT"), void 0 === e.prevText && (e.prevText = "PREVIOUS"), void 0 === e.navOffsetX && (e.navOffsetX = 0), void 0 === e.navOffsetY && (e.navOffsetY = 0), void 0 === e.isWizard && (e.isWizard = !1), void 0 === e.customNavTabs && (e.customNavTabs = "BSNavTab"), void 0 === e.navTabTextOffetX && (e.navTabTextOffetX = 0), void 0 === e.navTabTextOffetY && (e.navTabTextOffetY = 0);
+    var n = !1;
+    for (o = (u = t.getElementsByClassName("nav-tabs")).length; o--;) console.log("found nav-tab instead of nav-pill"), u[o].className += " nav-pills", u[o].style.setProperty("background-color", "transparent"), u[o].classList.remove("nav-tabs");
+    console.log(t.getElementsByClassName("nav-pills")[0]), t.getElementsByClassName("nav-pills")[0].classList.contains("flex-column") && (n = !0);
+    var a = t.getElementsByClassName("nav-pills"),
+        s = a[0].getElementsByClassName("nav-link"),
+        l = a[0].getElementsByClassName("nav-link")[0];
+    l.className += " active";
+    for (var i = a[0].getElementsByClassName("nav-link"), o = 0; o < i.length; o++) i.item(o).setAttribute("data-tab", o), i.item(o).setAttribute("data-parent", e.id);
+    var c = t.getElementsByClassName("tab-pane");
+    for (o = 0; o < c.length; o++) c.item(o).setAttribute("data-tabPane", o), c.item(o).setAttribute("data-parent", e.id);
+    var r = s.length;
+    jwidth = 100 / r, Array.prototype.forEach.call(s, (function(e) {
+        e.parentElement.classList.contains("nav-pills") ? e.style.width = jwidth + "%" : e.parentElement.style.width = jwidth + "%"
+    })), 1 == n && (element = t.getElementsByClassName("flex-column")[0], console.log(element), height = element.getBoundingClientRect().height, width = element.getBoundingClientRect().width, elementHeight = height / r, Array.prototype.forEach.call(s, (function(e) {
+        e.parentElement.classList.contains("nav-pills") ? (e.style.height = elementHeight + "px", e.style.width = width + "px", e.style.textAlign = "left") : (e.parentElement.style.height = elementHeight + "px", e.parentElement.style.width = width + "px", e.parentElement.style.textAlign = "left")
+    }))), l = t.querySelector(".nav-link.active");
+    var v = t.getElementsByClassName("nav-pills")[0],
+        m = t.getElementsByClassName("tab-pane")[0];
+    getCommonAncestor(v, m).classList += " BSMagic", window.addEventListener("resize", (function() {
+        ReFresh(t, e)
+    })), window.addEventListener("scroll", (function() {
+        ReFresh(t, e)
+    })), "square" == e.navShape && (getCommonAncestor(v, m).classList += " NavShapeSquare"), "oval" == e.navShape && (getCommonAncestor(v, m).classList += " NavShapeOval"), "circle" == e.navShape && (getCommonAncestor(v, m).classList += " NavShapeCircle"), "blue" == e.navBackground && (getCommonAncestor(v, m).classList += " NavBackgroundBlue"), "white" == e.navBackground && (getCommonAncestor(v, m).classList += " NavBackgroundWhite"), "clear" == e.navBackground && (getCommonAncestor(v, m).classList += " NavBackgroundClear"), "white" == e.navFontColor && (getCommonAncestor(v, m).classList += " NavFontWhite"), "blue" == e.navFontColor && (getCommonAncestor(v, m).classList += " NavFontBlue"), 1 == e.navUnderline && (getCommonAncestor(v, m).classList += " NavUnderlineBlue"), 1 == e.navShadow && (getCommonAncestor(v, m).classList += " NavBlueShadow"), getCommonAncestor(v, m).classList += 1 == n ? " BSVertical" : " BSHorizontal", 1 == e.addButtons && AddButtons(getCommonAncestor(v, m), e), CheckTabLocation(l, t, e), l.parentElement.classList.contains("nav-pills") ? Initialize(l, t, e) : Initialize(l.parentElement, t, e);
+    var u = t.getElementsByClassName("nav-link");
+    o = 0;
+    for (o = 0; o < u.length; o++) u[o].addEventListener("click", (function() {
+        var n = t.querySelector(".nav-link.active");
+        if (CheckTabLocation(this, t, e), n.classList.contains("nav-link") && null != this) {
+            n.classList.remove("active"), this.className += " active";
+            var a = t.querySelector(".tab-pane.active");
+            nextTabContentNumber = parseInt(this.getAttribute("data-tab"));
+            var s = t.querySelectorAll('[data-tabpane="' + nextTabContentNumber + '"]')[0];
+            a.classList.remove("active"), a.classList.remove("show"), s.className += " active", s.className += " show"
+        }
+        JAnimate(n, this, t, e)
+    }));
+    for (u = t.getElementsByClassName("JNextButton"), o = 0; o < u.length; o++) u[o].addEventListener("click", (function() {
+        var n = t.querySelector(".nav-link.active"),
+            a = parseInt(n.getAttribute("data-tab")) + 1,
+            s = t.querySelectorAll('[data-tab="' + a + '"]')[0];
+        CheckTabLocation(s, t, e), NextTab(n, s, t, e)
+    }));
+    for (u = t.getElementsByClassName("JBackButton"), o = 0; o < u.length; o++) u[o].addEventListener("click", (function() {
+        var n = t.querySelector(".nav-link.active"),
+            a = parseInt(n.getAttribute("data-tab")) - 1,
+            s = t.querySelectorAll('[data-tab="' + a + '"]')[0];
+        CheckTabLocation(s, t, e), BackTab(n, s, t, e)
+    }));
+    ReFresh(t, e)
+}
+
+function AddButtons(e, t) {
+    console.log("Add append buttons as child of:"), console.log(e);
+    //var n = "<div class='BSMagicButtons col-sm-12' style='justify-content:space-between;'><div class='float-right'> <button type='button' class='btn btn-next btn-fill btn-danger btn-wd square JNextButton' name='next' value='Next' >" + t.nextText + "</button></div><div class='pull-left'><button type='button' class='btn btn-previous btn-fill btn-default btn-wd square JBackButton' name='previous' value='Previous' >" + t.prevText + "</button></div><div class='clearfix'></div></div>";
+    //e.insertAdjacentHTML("beforeend", n), e.getElementsByClassName("BSMagicButtons").item(0).setAttribute("data-parent", t.id)
+    var n = "<div class='BSMagicButtons col-sm-12' style='justify-content:space-between; padding-top:10px'><div class='row'><div class='col-md-6'><button type='button' class='btn btn-previous btn-fill btn-default btn-wd square JBackButton' name='previous' value='Previous' >" + t.prevText + "</button></div><div class='col-md-6'> <button type='button' class='btn btn-next btn-fill btn-primary btn-wd square JSaveButton hide' name='saveDraftBtn' id='saveDraftBtn' value='SAVE DRAFT' >SAVE DRAFT</button>&emsp;<button type='button' class='btn btn-next btn-fill btn-danger btn-wd square JNextButton' name='next' value='Next' >" + t.nextText + "</button></div><div class='clearfix'></div></div></div>";
+	document.getElementById("test").insertAdjacentHTML("beforeend", n);
+}
+
+function JAnimate(e, t, n, a) {
+    e = e.parentElement.classList.contains("nav-pills") ? e : e.parentElement, t = t.parentElement.classList.contains("nav-pills") ? t : t.parentElement;
+    var s, l = n.getElementsByClassName(a.customNavTabs);
+    for (s = l.length; s--;) l[s].parentNode.removeChild(l[s]);
+    var i = document.createElement("div"),
+        o = e.getBoundingClientRect(),
+        c = t.getBoundingClientRect();
+    Yoffset = Math.abs(o.top - c.top), Xoffset = Math.abs(o.left - c.left), FullWidth = c.width + Xoffset + 29, FullHeight = c.height + Yoffset, i.style.width = o.width, "circle" == a.navShape ? i.style.height = o.width + "px" : i.style.height = o.height + "px", i.style.position = "fixed", i.style.top = parseInt(o.top) + parseInt(a.navOffsetY) - 12 + "px", i.style.left = parseInt(o.left) + parseInt(a.navOffsetX) + "px", i.style.pointerEvents = "none", i.className += " " + a.customNavTabs, i.innerHTML = t.innerHTML, i.children.length > 0 && (i.children[0].style.left = parseInt(a.navTabTextOffetX) + "px", i.children[0].style.top = parseInt(a.navTabTextOffetY) + "px"), e.parentElement.appendChild(i), n.querySelector(".nav-link.active").children.length > 0 && (textOffset = n.querySelector(".nav-link.active").children[0], textOffset.style.top = parseInt(a.navTabTextOffetY) + "px", textOffset.style.left = parseInt(a.navTabTextOffetX) + "px");
+    var r = new TimelineLite;
+    r.eventCallback("onComplete", (function() {
+        ReFresh(n, a)
+    })), r.staggerFromTo(n.getElementsByClassName(a.customNavTabs), .5, {
+        y: e.top,
+        x: e.left,
+        width: Math.abs(FullWidth),
+        height: Math.abs(FullHeight)
+    }, {
+        y: c.top - o.top,
+        x: c.left - o.left,
+        width: c.width,
+        height: c.height,
+        ease: "back"
+    }, .5)
+}
+
+function Initialize(e, t, n) {
+    var a = !1;
+    t.getElementsByClassName("nav-pills")[0].classList.contains("flex-column") && (a = !0);
+    var s = (c = t.getElementsByClassName("nav-pills"))[0].getElementsByClassName("nav-link"),
+        l = s.length;
+    jwidth = 100 / l, 1 == a && (element = t.getElementsByClassName("flex-column")[0], height = element.getBoundingClientRect().height, width = element.getBoundingClientRect().width, elementHeight = height / l, Array.prototype.forEach.call(s, (function(e) {
+        e.parentElement.classList.contains("nav-pills") ? (e.style.height = elementHeight + "px", e.style.width = width + "px", e.style.textAlign = "left") : (e.parentElement.style.height = elementHeight + "px", e.parentElement.style.width = width + "px", e.parentElement.style.textAlign = "left")
+    })));
+    var i = e.getBoundingClientRect(),
+        o = document.createElement("div");
+    o.style.width = i.width + "px", "circle" == n.navShape ? o.style.height = i.width + "px" : o.style.height = i.height + "px", o.style.position = "fixed", o.style.top = parseInt(i.top) + parseInt(n.navOffsetY) - 12 + "px", o.style.left = parseInt(i.left) + parseInt(n.navOffsetX) + "px", o.style.pointerEvents = "none", o.className += " " + n.customNavTabs, o.innerHTML = e.innerHTML;
+    var c = t.getElementsByClassName("nav-pills");
+    n.isWizard ? getCommonAncestor(t.getElementsByClassName("nav-pills")[0], t.getElementsByClassName("tab-pane")[0]).children[0].style.display = "none" : c[0].appendChild(o);
+    t.querySelector(".nav-link.active").children.length > 0 && (textOffset = t.querySelector(".nav-link.active").children[0], textOffset.style.top = parseInt(n.navTabTextOffetY) + "px", textOffset.style.left = parseInt(n.navTabTextOffetX) + "px")
+}
+
+function ReFresh(e, t) {
+    JCurTab = e.querySelector(".nav-link.active");
+    var n, a = e.getElementsByClassName(t.customNavTabs);
+    for (n = a.length; n--;) a[n].parentNode.removeChild(a[n]);
+    JCurTab.parentElement.classList.contains("nav-pills") ? Initialize(JCurTab, e, t) : Initialize(JCurTab.parentElement, e, t)
+}
+
+function NextTab(e, t, n, a) { 
+
+	var tabNo = document.getElementById("txt_tab").value;
+	var retError = ValidateInput(tabNo);
+	//alert(tabNo+" = "+retError);
+	if(retError == 0){
+		if((tabNo != '')&&(tabNo != 7)){
+			tabNo++;
+			document.getElementById("txt_tab").value = tabNo;
+		}
+		if(tabNo >= 7){
+			document.getElementById("saveDraftBtn").classList.remove("hide");
+		}
+		if (i = CheckTabLocation(e, n, a), e.classList.contains("nav-link") && null != t) {
+			e.classList.remove("active"), t.className += " active";
+			var s = n.querySelector(".tab-pane.active"),
+				l = getNextSibling(s);
+			s.classList.remove("active"), s.classList.remove("show"), l.className += " active", l.className += " show", JAnimate(e, t, n, a);
+			var i = 0;
+			i = CheckTabLocation(t, n, a), console.log(i), 3 != i && 13 != i || console.log("LAST TAB: " + i)
+		} else submitClicked(n)
+	}
+}
+
+function BackTab(e, t, n, a) { 
+	var tabNo = document.getElementById("txt_tab").value;
+	if((tabNo != '')&&(tabNo != 1)){
+		tabNo--;
+		document.getElementById("txt_tab").value = tabNo;
+	}
+	if(tabNo < 7){
+			document.getElementById("saveDraftBtn").classList.add("hide");
+		}
+    if (e.classList.contains("nav-link") && null != t) {
+        e.classList.remove("active"), t.className += " active";
+        var s = n.querySelector(".tab-pane.active"),
+            l = getPreviousSibling(s);
+        s.classList.remove("active"), s.classList.remove("show"), l.className += " active", l.className += " show", JAnimate(e, t, n, a);
+        CheckTabLocation(t, n, a)
+    } else CheckTabLocation(t, n, a)
+	
+}
+
+function nextButtonOnLastTab(e, t) { 
+    document.body.contains(e.getElementsByClassName("JNextButton")[0]) && (e.getElementsByClassName("JNextButton")[0].innerHTML = "SUBMIT")
+}
+
+function nextButtonNotLastTab(e, t) { 
+	var tabNo = document.getElementById("txt_tab").value;
+	if(tabNo == 7){
+    	document.body.contains(e.getElementsByClassName("JNextButton")[0]) && (e.getElementsByClassName("JNextButton")[0].innerHTML = "SUBMIT")
+	}else{
+    	document.body.contains(e.getElementsByClassName("JNextButton")[0]) && (e.getElementsByClassName("JNextButton")[0].innerHTML = t.nextText)
+	}
+	
+}
+
+function backButtonOnFirstTab(e, t) {
+    document.body.contains(e.getElementsByClassName("JBackButton")[0]) && (e.getElementsByClassName("JBackButton")[0].style.display = "none")
+}
+
+function backButtonNotFirstTab(e, t) {
+    document.body.contains(e.getElementsByClassName("JBackButton")[0]) && (e.getElementsByClassName("JBackButton")[0].style.display = "block")
+}
+
+function CheckTabLocation(e, t, n) { //alert();
+    var a = t.getElementsByClassName("nav-link")[0],
+        s = t.getElementsByClassName("nav-link")[t.getElementsByClassName("nav-link").length - 1];
+    return e == a == s ? (backButtonOnFirstTab(t, n), nextButtonOnLastTab(t, n), 13) : e != a && e != s ? (backButtonNotFirstTab(t, n), nextButtonNotLastTab(t, n), 2) : e == s ? (nextButtonOnLastTab(t, n), backButtonNotFirstTab(t, n), 3) : e == a ? (backButtonOnFirstTab(t, n), nextButtonNotLastTab(t, n), 1) : void 0
+}
+
+function submitClicked() {
+    console.log("CLICKED SUBMIT")
+}

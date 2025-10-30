@@ -1,0 +1,417 @@
+.cssload-loader{
+	display:block;
+	position:fixed;
+	height:4em;width:4em;
+	left:50%;
+	margin-top:40%;
+	margin-left:-2em;
+	background-color:rgb(51,136,153);
+	border-radius:2.5em 2.5em 2.5em 2.5em;
+		-o-border-radius:2.5em 2.5em 2.5em 2.5em;
+		-ms-border-radius:2.5em 2.5em 2.5em 2.5em;
+		-webkit-border-radius:2.5em 2.5em 2.5em 2.5em;
+		-moz-border-radius:2.5em 2.5em 2.5em 2.5em;
+	box-shadow:inset 0 0 0 0.5em rgb(231,232,223);
+		-o-box-shadow:inset 0 0 0 0.5em rgb(231,232,223);
+		-ms-box-shadow:inset 0 0 0 0.5em rgb(231,232,223);
+		-webkit-box-shadow:inset 0 0 0 0.5em rgb(231,232,223);
+		-moz-box-shadow:inset 0 0 0 0.5em rgb(231,232,223);
+	background: linear-gradient(-45deg, rgb(176,16,75), rgb(176,16,75) 50%, rgb(15,94,212) 50%, rgb(15,94,212));
+		background: -o-linear-gradient(-45deg, rgb(176,16,75), rgb(176,16,75) 50%, rgb(15,94,212) 50%, rgb(15,94,212));
+		background: -ms-linear-gradient(-45deg, rgb(176,16,75), rgb(176,16,75) 50%, rgb(15,94,212) 50%, rgb(15,94,212));
+		background: -webkit-linear-gradient(-45deg, rgb(176,16,75), rgb(176,16,75) 50%, rgb(15,94,212) 50%, rgb(15,94,212));
+		background: -moz-linear-gradient(-45deg, rgb(176,16,75), rgb(176,16,75) 50%, rgb(15,94,212) 50%, rgb(15,94,212));
+	background-blend-mode: multiply;
+	border-top:4px solid rgb(15,94,212);
+	border-left:4px solid rgb(15,94,212);
+	border-bottom:4px solid rgb(176,16,75);
+	border-right:4px solid rgb(176,16,75);
+	animation:cssload-roto 0.9s infinite linear;
+		-o-animation:cssload-roto 0.9s infinite linear;
+		-ms-animation:cssload-roto 0.9s infinite linear;
+		-webkit-animation:cssload-roto 0.9s infinite linear;
+		-moz-animation:cssload-roto 0.9s infinite linear;
+}
+
+
+@keyframes cssload-roto {
+	0%{transform:rotateZ(0deg);}
+	100%{transform:rotateZ(360deg);}
+}
+
+@-o-keyframes cssload-roto {
+	0%{-o-transform:rotateZ(0deg);}
+	100%{-o-transform:rotateZ(360deg);}
+}
+
+@-ms-keyframes cssload-roto {
+	0%{-ms-transform:rotateZ(0deg);}
+	100%{-ms-transform:rotateZ(360deg);}
+}
+
+@-webkit-keyframes cssload-roto {
+	0%{-webkit-transform:rotateZ(0deg);}
+	100%{-webkit-transform:rotateZ(360deg);}
+}
+
+@-moz-keyframes cssload-roto {
+	0%{-moz-transform:rotateZ(0deg);}
+	100%{-moz-transform:rotateZ(360deg);}
+}
+.loaddiv{
+	display:block;
+	position:fixed;
+	height:100em;
+	width:150em;
+	margin:-22em;
+	background-color: rgba(0,0,0,0.5);
+	z-index:99999;
+}
+.pageload{
+	display:none;
+}
+
+
+/*.cssload-container * {
+	box-sizing: border-box;
+		-o-box-sizing: border-box;
+		-ms-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+}
+.cssload-container {
+	margin: 18% 40% 0% 32%;
+	max-width: 545px;
+}
+
+.cssload-container ul li{
+	list-style: none;
+}
+
+.cssload-flex-container {
+	display: flex;
+		display: -o-flex;
+		display: -ms-flex;
+		display: -webkit-flex;
+		display: -moz-flex;
+	flex-direction: row;
+		-o-flex-direction: row;
+		-ms-flex-direction: row;
+		-webkit-flex-direction: row;
+		-moz-flex-direction: row;
+	flex-wrap: wrap;
+		-o-flex-wrap: wrap;
+		-ms-flex-wrap: wrap;
+		-webkit-flex-wrap: wrap;
+		-moz-flex-wrap: wrap;
+	justify-content: space-around;
+}
+.cssload-flex-container li {
+	padding: 10px;
+	height: 97px;
+	width: 97px;
+	margin: 29px 19px;
+	position: relative;
+	text-align: center;
+}
+
+.cssload-loading {
+	display: inline-block;
+	height: 78px;
+	width: 78px;
+	border: 4px solid rgb(0,84,230);
+	border-radius: 100%;
+		-o-border-radius: 100%;
+		-ms-border-radius: 100%;
+		-webkit-border-radius: 100%;
+		-moz-border-radius: 100%;
+	animation: cssload-spinShrink 2.53s ease-in infinite;
+		-o-animation: cssload-spinShrink 2.53s ease-in infinite;
+		-ms-animation: cssload-spinShrink 2.53s ease-in infinite;
+		-webkit-animation: cssload-spinShrink 2.53s ease-in infinite;
+		-moz-animation: cssload-spinShrink 2.53s ease-in infinite;
+	animation-direction: alternate;
+		-o-animation-direction: alternate;
+		-ms-animation-direction: alternate;
+		-webkit-animation-direction: alternate;
+		-moz-animation-direction: alternate;
+}
+.cssload-loading:after {
+	content: '';
+	display: block;
+	height: 19px;
+	width: 19px;
+	background: rgb(240,17,106);
+	position: absolute;
+	border-radius: 100%;
+	right: 13px;
+	animation: cssload-dotShrink 2.53s ease-in infinite;
+		-o-animation: cssload-dotShrink 2.53s ease-in infinite;
+		-ms-animation: cssload-dotShrink 2.53s ease-in infinite;
+		-webkit-animation: cssload-dotShrink 2.53s ease-in infinite;
+		-moz-animation: cssload-dotShrink 2.53s ease-in infinite;
+	animation-direction: alternate;
+		-o-animation-direction: alternate;
+		-ms-animation-direction: alternate;
+		-webkit-animation-direction: alternate;
+		-moz-animation-direction: alternate;
+}
+.cssload-loading:before {
+	background: transparent;
+	border: 2px solid rgb(0,84,230);
+	left: 5%;
+	transform: translate(-50%, -50%);
+		-o-transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+		-webkit-transform: translate(-50%, -50%);
+		-moz-transform: translate(-50%, -50%);
+	border-radius: 100%;
+		-o-border-radius: 100%;
+		-ms-border-radius: 100%;
+		-webkit-border-radius: 100%;
+		-moz-border-radius: 100%;
+	content: '';
+	display: block;
+	height: 10px;
+	width: 10px;
+	position: absolute;
+	opacity: 0;
+	animation: cssload-ring 5.06s ease infinite;
+		-o-animation: cssload-ring 5.06s ease infinite;
+		-ms-animation: cssload-ring 5.06s ease infinite;
+		-webkit-animation: cssload-ring 5.06s ease infinite;
+		-moz-animation: cssload-ring 5.06s ease infinite;
+}
+
+
+
+
+
+@keyframes cssload-spinShrink {
+	from {
+		width: 78px;
+		height: 78px;
+		transform: rotate(0deg);
+	}
+	to {
+		width: 10px;
+		height: 10px;
+		transform: rotate(1080deg);
+		margin-top: 29px;
+	}
+}
+
+@-o-keyframes cssload-spinShrink {
+	from {
+		width: 78px;
+		height: 78px;
+		-o-transform: rotate(0deg);
+	}
+	to {
+		width: 10px;
+		height: 10px;
+		-o-transform: rotate(1080deg);
+		margin-top: 29px;
+	}
+}
+
+@-ms-keyframes cssload-spinShrink {
+	from {
+		width: 78px;
+		height: 78px;
+		-ms-transform: rotate(0deg);
+	}
+	to {
+		width: 10px;
+		height: 10px;
+		-ms-transform: rotate(1080deg);
+		margin-top: 29px;
+	}
+}
+
+@-webkit-keyframes cssload-spinShrink {
+	from {
+		width: 78px;
+		height: 78px;
+		-webkit-transform: rotate(0deg);
+	}
+	to {
+		width: 10px;
+		height: 10px;
+		-webkit-transform: rotate(1080deg);
+		margin-top: 29px;
+	}
+}
+
+@-moz-keyframes cssload-spinShrink {
+	from {
+		width: 78px;
+		height: 78px;
+		-moz-transform: rotate(0deg);
+	}
+	to {
+		width: 10px;
+		height: 10px;
+		-moz-transform: rotate(1080deg);
+		margin-top: 29px;
+	}
+}
+
+@keyframes cssload-dotShrink {
+	from {
+		height: 19px;
+		width: 19px;
+	}
+	to {
+		height: 3px;
+		width: 3px;
+		right: 0;
+	}
+}
+
+@-o-keyframes cssload-dotShrink {
+	from {
+		height: 19px;
+		width: 19px;
+	}
+	to {
+		height: 3px;
+		width: 3px;
+		right: 0;
+	}
+}
+
+@-ms-keyframes cssload-dotShrink {
+	from {
+		height: 19px;
+		width: 19px;
+	}
+	to {
+		height: 3px;
+		width: 3px;
+		right: 0;
+	}
+}
+
+@-webkit-keyframes cssload-dotShrink {
+	from {
+		height: 19px;
+		width: 19px;
+	}
+	to {
+		height: 3px;
+		width: 3px;
+		right: 0;
+	}
+}
+
+@-moz-keyframes cssload-dotShrink {
+	from {
+		height: 19px;
+		width: 19px;
+	}
+	to {
+		height: 3px;
+		width: 3px;
+		right: 0;
+	}
+}
+
+@keyframes cssload-ring {
+	0%, 50%, 100% {
+		opacity: 0;
+		width: 10px;
+		height: 10px;
+	}
+	51% {
+		opacity: 1;
+	}
+	70% {
+		opacity: 0;
+		width: 97px;
+		height: 97px;
+	}
+}
+
+@-o-keyframes cssload-ring {
+	0%, 50%, 100% {
+		opacity: 0;
+		width: 10px;
+		height: 10px;
+	}
+	51% {
+		opacity: 1;
+	}
+	70% {
+		opacity: 0;
+		width: 97px;
+		height: 97px;
+	}
+}
+
+@-ms-keyframes cssload-ring {
+	0%, 50%, 100% {
+		opacity: 0;
+		width: 10px;
+		height: 10px;
+	}
+	51% {
+		opacity: 1;
+	}
+	70% {
+		opacity: 0;
+		width: 97px;
+		height: 97px;
+	}
+}
+
+@-webkit-keyframes cssload-ring {
+	0%, 50%, 100% {
+		opacity: 0;
+		width: 10px;
+		height: 10px;
+	}
+	51% {
+		opacity: 1;
+	}
+	70% {
+		opacity: 0;
+		width: 97px;
+		height: 97px;
+	}
+}
+
+@-moz-keyframes cssload-ring {
+	0%, 50%, 100% {
+		opacity: 0;
+		width: 10px;
+		height: 10px;
+	}
+	51% {
+		opacity: 1;
+	}
+	70% {
+		opacity: 0;
+		width: 97px;
+		height: 97px;
+	}
+}
+.loaddiv{
+	/*display:block;
+	position:fixed;
+	height:100em;
+	width:150em;
+	margin:-22em;*/
+	display:block;
+	position:fixed;
+	width:130em;
+	height:100em;
+	margin:-22em;
+	margin-top:-10em;
+	background-color: rgba(0,0,0,0.5);
+	z-index:99999;
+}
+#pageload{
+	display:none;
+}
+*/

@@ -1,0 +1,292 @@
+	.table1 tr td {
+		padding:5px;
+		border:1px solid #E6E6E6;
+		font-size:13px;
+		font-family:Verdana, Arial, Helvetica, sans-serif;
+		/*background-color:#f5f5f5 ;*/
+	}
+	.maintable
+	{
+		text-decoration: none;
+		padding: 2px 14px;
+		color: #fff;
+		border: none;
+		background-color: transparent;
+		font-size: 14px;
+		outline:none;
+		-webkit-box-shadow: 0 0 5px #035a85;
+		-moz-box-shadow: 0 0 5px #035a85;
+		box-shadow: 0 0 5px #035a85;
+	}
+	.maintable tr td
+	{
+		padding:10px;
+	}
+	.note 
+	{
+		text-decoration: none;
+		padding: 2px 14px;
+		color: #fff;
+		border: none;
+		background-color: transparent;
+		font-size: 13px;
+		outline:none;
+		-webkit-box-shadow: 0 0 1px #237ECA;
+		-moz-box-shadow: 0 0 1px #237ECA;
+		box-shadow: 0 0 1px #237ECA;
+		font-weight:bold;
+	}
+	.note:hover 
+	{
+		-webkit-box-shadow: 0 0 1px #fff;
+		-moz-box-shadow: 0 0 1px #fff;
+		box-shadow: 0 0 1px #fff;
+	}
+	table{
+		-webkit-box-shadow: 0 1px 0px #DEDFDF;
+		-moz-box-shadow: 0 1px 0px #DEDFDF;
+		box-shadow: 0 1px 0px #DEDFDF;
+	}
+	#grad {
+	  	background: red; /* For browsers that do not support gradients */
+	  	background: -webkit-linear-gradient(left, #008dd5 , #53BFF9); /* For Safari 5.1 to 6.0 */
+	  	background: -o-linear-gradient(right, #008dd5, #53BFF9); /* For Opera 11.1 to 12.0 */
+	  	background: -moz-linear-gradient(right, #008dd5, #53BFF9); /* For Firefox 3.6 to 15 */
+	  	background: linear-gradient(to right, #008dd5 , #53BFF9); /* Standard syntax */
+	}
+	.users-icon-part{
+		width:80%;
+	}
+	.users-icon-a{
+		font-weight:bold;
+		color:#E80011;
+		font-size:13px;
+		cursor:pointer;
+	}
+	.download-icons{
+		padding-top:8px;
+		color:#7F7F7F;
+		font-size:13px;
+		cursor:pointer;
+	}
+	.inst-content{
+		width:100%;
+		font-family:Verdana, Arial, Helvetica, sans-serif;
+		font-size:13px;
+		text-align:left;
+		padding:3px;
+		height:auto;
+		color:#0275d8;/*#0275d8;*/
+		font-weight:bold;
+	}
+	a.btn{
+		background:#F3F3F3 !important;
+		border-color: #269abc;
+		color:#0275d8 !important;
+		margin-top: 0px;
+		white-space: normal;
+		/*border:none;*/
+		-webkit-box-shadow: rgba(195,6,72,1) 0 0px 0;
+		-moz-box-shadow: rgba(195,6,72,1) 0 0px 0;
+		box-shadow: rgba(195,6,72,1) 0 0px 0;
+		text-shadow: rgba(195,6,72,.4) 0 0px 0;
+	}
+	a.btn-head{
+		background-color: #CCD5D9;
+		border-color: #AAAEAF;
+		color: #e80404;
+		margin-top: 2px;
+		white-space: normal;
+	}
+	a.btn:hover{
+		background-color:#F3F3F3 !important;
+		border-color: #269abc;
+		color: #fff;
+	}
+	.collapse.btn:hover{
+		background-color: #000;
+		border-color: #269abc;
+		color: #fff;
+	}
+	.btn.active.focus, .btn.active:focus, .btn.focus, .btn.focus:active, .btn:active:focus, .btn:focus {
+	  	outline:none;
+	  	outline-offset: -2px;
+	}
+	.btn-info.focus, .btn-info:focus {
+	 	background-color: #1babd3;/*#CCD5D9;*/
+	  	border-color: #31b0d5;
+	  	color: #fff;/*#e50000;*/
+	}
+	.btn-info.active.focus, .btn-info.active:focus, .btn-info.active:hover, .btn-info.focus:active, .btn-info:active:focus, .btn-info:active:hover, .open > .dropdown-toggle.btn-info.focus, .open > .dropdown-toggle.btn-info:focus, .open > .dropdown-toggle.btn-info:hover {
+	  	background-color: #CCD5D9;
+	  	border-color: #1b6d85;
+	  	color: #e50000;
+	}
+	.col-sm-12{
+		padding-left:0px;
+		padding-right:0px;
+	}
+	.test {
+	  	color: #c91622;
+	  	outline: medium none;
+	  	text-decoration: none;
+	  	text-shadow: none;
+	  	transition: none 0s ease 0s ;
+	  	-moz-user-select: none;
+	  	background-image: none;
+	  	border: 1px solid transparent;
+	  	border-radius: 4px;
+	  	cursor: pointer;
+	  	display: inline-block;
+	  	font-size: 14px;
+	  	font-weight: 400;
+	  	line-height: 1.42857;
+	  	margin-bottom: 0;
+	  	padding: 6px 12px;
+	  	text-align: center;
+	  	touch-action: manipulation;
+	  	vertical-align: middle;
+	  	white-space: nowrap;
+	  	display: inline-block;
+	  	font-size: 12px;
+	  	line-height: 20px;
+	 	margin-top: 25px;
+	  	padding: 4px 0px 5px;
+	  	background-color: #F8F9FA;
+	  	border-color: #aaaeaf;
+	  	color: #025881;
+	  	margin-top: 1px;
+	}
+	/*a.btn{
+		padding: 4px 0 5px;
+	}*/
+	a.btn1{
+		background-color: #026292;
+		border-color: #269abc;
+		color: #fff;
+	}
+	a.btn1:hover{
+		background-color: #026292;
+		border-color: #269abc;
+		color: #fff;
+	}
+	.title-content{
+		color:#00356A;
+	}
+	.green{
+		background-color:#07A968;
+		color:#FFFFFF;
+	}
+	.red{
+		background-color:#f24d76;
+		color:#FFFFFF;
+	}
+	.grey{
+		background-color:#666666;
+		color:#FFFFFF;
+	}
+	.ulabel{
+		background-color:#666666;
+		color:#999999;
+	}
+	.clabel{
+		background-color:#07A968;
+		color:#FFFFFF;
+	}
+	.boldfont{
+		font-weight:bold;
+	}
+	.SpanCheck{
+		padding:3px;
+		padding-top:6px; 
+		padding-left:5px;
+		padding-right:5px;
+		border:1px solid #B2B2B2;
+		background-color:#E9E9E9;
+		vertical-align:middle;
+		border-radius:12px;
+		top:2px; left:2px;
+	}
+	.BottomContent1 {
+	  position: fixed;
+	  bottom: 2px;
+	  right: 30px;
+	  z-index: 99;
+	  border: none;
+	  outline: none;
+	  background-color:#f24343;
+	  color: white;
+	  padding: 5px;
+	  border-radius: 10px;
+	  width:100px;
+	  font-weight:bold;
+	  text-align:center;
+	  vertical-align:middle;
+	  pointer-events:none;
+	}
+	.BottomContent1:hover {
+	  background-color: #555;
+	}
+	.BottomContent2 {
+	  position: fixed;
+	  bottom: 2px;
+	  right: 240px;
+	  z-index: 99;
+	  border: none;
+	  outline: none;
+	  background-color:#f24343;
+	  color: white;
+	  padding: 5px;
+	  border-radius: 10px;
+	  width:150px;
+	  font-weight:bold;
+	  text-align:right;
+	  vertical-align:middle;
+	  pointer-events:none;
+	  letter-spacing:1px;
+	}
+	.BottomContent2:hover {
+	  background-color: #555;
+	}
+	.BottomContent3 {
+	  position: fixed;
+	  bottom: 2px;
+	  right: 390px;
+	  z-index: 99;
+	  border: none;
+	  outline: none;
+	  background-color:#555;
+	  color:white;/*#003C9D;*/
+	  padding: 5px;
+	  border-radius: 10px;
+	  width:220px;
+	  font-weight:bold;
+	  text-align:right;
+	  vertical-align:middle;
+	  pointer-events:none;
+	  letter-spacing:1px;
+	}
+	.BottomContent3:hover {
+	  background-color: #555;
+	}
+	.BottomContent4 {
+	  position: fixed;
+	  bottom: 2px;
+	  right: 130px;
+	  z-index: 99;
+	  border: none;
+	  outline: none;
+	  background-color:#555;
+	  color: white;
+	  padding: 5px;
+	  border-radius: 10px;
+	  width:90px;
+	  font-weight:bold;
+	  text-align:center;
+	  vertical-align:middle;
+	  pointer-events:none;
+	  letter-spacing:1px;
+	}
+	.BottomContent4:hover {
+	  background-color: #555;
+	}

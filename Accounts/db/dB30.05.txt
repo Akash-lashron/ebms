@@ -1,0 +1,769 @@
+-- phpMyAdmin SQL Dump
+-- version 2.11.7
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: May 30, 2015 at 04:55 AM
+-- Server version: 5.0.51
+-- PHP Version: 5.2.6
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+--
+-- Database: `bm`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `abstractbook`
+--
+
+CREATE TABLE IF NOT EXISTS `abstractbook` (
+  `abstractbookid` int(11) NOT NULL auto_increment,
+  `abstractbookdate` datetime default NULL,
+  `sheetid` int(11) default NULL,
+  `fromdate` datetime default NULL,
+  `todate` datetime default NULL,
+  `staffid` int(11) default NULL,
+  `measurementbookid` int(11) default NULL,
+  `flag` int(11) default NULL,
+  `description` varchar(200) character set utf8 default NULL,
+  `contentsarea` decimal(11,3) default NULL,
+  `rate` decimal(11,2) default NULL,
+  `previousmbpage` varchar(100) character set utf8 default NULL,
+  `previousquantity` decimal(11,3) default NULL,
+  `previousamount` decimal(11,2) default NULL,
+  `quantity` decimal(11,3) default NULL,
+  `value` decimal(11,2) default NULL,
+  `remarks` varchar(200) character set utf8 default NULL,
+  `active` tinyint(1) default NULL,
+  `userid` int(11) default NULL,
+  PRIMARY KEY  (`abstractbookid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `abstractbook`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `adminpagemaster`
+--
+
+CREATE TABLE IF NOT EXISTS `adminpagemaster` (
+  `pageid` int(11) NOT NULL,
+  `pagename` varchar(50) NOT NULL,
+  `active` int(11) NOT NULL,
+  `createddt` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `modifieddt` timestamp NOT NULL default '0000-00-00 00:00:00'
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `adminpagemaster`
+--
+
+INSERT INTO `adminpagemaster` (`pageid`, `pagename`, `active`, `createddt`, `modifieddt`) VALUES
+(1, 'Agreement Upload', 1, '2015-03-09 17:04:29', '2015-03-09 00:00:00'),
+(2, 'View Agreement Sheet', 1, '2015-03-09 17:04:29', '2015-03-09 00:00:00'),
+(3, 'Measurement Upload', 1, '2015-03-09 17:04:29', '2015-03-09 00:00:00'),
+(4, 'Measurement Entry', 1, '2015-03-12 11:15:20', '2015-03-09 00:00:00'),
+(5, 'Generate', 1, '2015-03-12 11:15:20', '2015-03-09 00:00:00'),
+(6, 'View Running Bill', 1, '2015-03-12 11:15:20', '2015-03-09 00:00:00'),
+(7, 'Abstract Generate', 1, '2015-03-12 11:15:20', '2015-03-09 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `agreementmbookallotment`
+--
+
+CREATE TABLE IF NOT EXISTS `agreementmbookallotment` (
+  `allotmentid` int(11) NOT NULL auto_increment,
+  `sheetid` int(11) default NULL,
+  `totalpages` int(11) default NULL,
+  `mbno` int(200) default NULL,
+  `remarks` varchar(150) default NULL,
+  `active` int(1) NOT NULL,
+  `flag` int(11) default NULL,
+  `userid` int(1) default NULL,
+  `createddate` datetime default NULL,
+  `mbooktype` varchar(10) NOT NULL,
+  PRIMARY KEY  (`allotmentid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=274 ;
+
+--
+-- Dumping data for table `agreementmbookallotment`
+--
+
+INSERT INTO `agreementmbookallotment` (`allotmentid`, `sheetid`, `totalpages`, `mbno`, `remarks`, `active`, `flag`, `userid`, `createddate`, `mbooktype`) VALUES
+(267, 1, 100, 12, NULL, 1, 1, 5, '2015-05-21 12:41:14', 'A'),
+(266, 1, 100, 11, NULL, 1, 1, 5, '2015-05-21 12:41:14', 'A'),
+(265, 1, 100, 10, NULL, 1, 1, 5, '2015-05-21 12:41:06', 'S'),
+(264, 1, 100, 9, NULL, 1, 1, 5, '2015-05-21 12:41:06', 'S'),
+(263, 1, 100, 8, NULL, 1, 1, 5, '2015-05-21 12:41:06', 'S'),
+(262, 1, 100, 7, NULL, 1, 1, 5, '2015-05-21 12:41:06', 'S'),
+(261, 1, 100, 6, NULL, 1, 1, 5, '2015-05-21 12:41:06', 'S'),
+(260, 1, 100, 5, NULL, 1, 1, 5, '2015-05-21 12:40:51', 'G'),
+(259, 1, 100, 4, NULL, 1, 1, 5, '2015-05-21 12:40:51', 'G'),
+(258, 1, 100, 3, NULL, 1, 1, 5, '2015-05-21 12:40:51', 'G'),
+(257, 1, 100, 2, NULL, 1, 1, 5, '2015-05-21 12:40:51', 'G'),
+(273, 1, 100, 15, NULL, 1, 1, 5, '2015-05-21 15:06:06', 'A'),
+(272, 1, 100, 14, NULL, 1, 1, 5, '2015-05-21 15:06:06', 'A'),
+(256, 1, 100, 1, NULL, 1, 1, 5, '2015-05-21 12:40:51', 'G'),
+(271, 1, 100, 13, NULL, 1, 1, 5, '2015-05-21 15:06:06', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `designation`
+--
+
+CREATE TABLE IF NOT EXISTS `designation` (
+  `designationid` int(11) NOT NULL auto_increment,
+  `designationname` varchar(50) default NULL,
+  `active` tinyint(1) default NULL,
+  `userid` int(11) default NULL,
+  PRIMARY KEY  (`designationid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `designation`
+--
+
+INSERT INTO `designation` (`designationid`, `designationname`, `active`, `userid`) VALUES
+(2, 'Project Manager', 1, 1),
+(4, 'Manager', 1, 1),
+(6, 'Project Engineer', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `division`
+--
+
+CREATE TABLE IF NOT EXISTS `division` (
+  `div_id` int(11) NOT NULL auto_increment,
+  `div_name` varchar(50) NOT NULL,
+  `sheet_id` int(11) default NULL,
+  `active` tinyint(1) default NULL,
+  `userid` int(11) default NULL,
+  PRIMARY KEY  (`div_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=175 ;
+
+--
+-- Dumping data for table `division`
+--
+
+INSERT INTO `division` (`div_id`, `div_name`, `sheet_id`, `active`, `userid`) VALUES
+(151, '1', 2, 1, 5),
+(152, '2', 2, 1, 5),
+(153, '3', 2, 1, 5),
+(154, '4', 2, 1, 5),
+(155, '5', 2, 1, 5),
+(156, '6', 2, 1, 5),
+(157, '7', 2, 1, 5),
+(158, '8', 2, 1, 5),
+(159, '9', 2, 1, 5),
+(160, '10', 2, 1, 5),
+(161, '11', 2, 1, 5),
+(162, '12', 2, 1, 5),
+(163, '1', 1, 1, 5),
+(164, '2', 1, 1, 5),
+(165, '3', 1, 1, 5),
+(166, '4', 1, 1, 5),
+(167, '5', 1, 1, 5),
+(168, '6', 1, 1, 5),
+(169, '7', 1, 1, 5),
+(170, '8', 1, 1, 5),
+(171, '9', 1, 1, 5),
+(172, '10', 1, 1, 5),
+(173, '11', 1, 1, 5),
+(174, '12', 1, 1, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mbookallotment`
+--
+
+CREATE TABLE IF NOT EXISTS `mbookallotment` (
+  `mballotmentid` int(11) NOT NULL auto_increment,
+  `mballotmentdate` datetime default NULL,
+  `sheetid` int(11) default NULL,
+  `allotmentid` int(11) default NULL,
+  `mbno` varchar(250) NOT NULL,
+  `staffid` int(11) default NULL,
+  `mbpage` int(11) default NULL,
+  `mbremainpage` int(11) default NULL,
+  `mbtotalpages` int(11) default NULL,
+  `flag` int(11) default NULL,
+  `active` tinyint(1) default NULL,
+  `userid` int(11) default NULL,
+  PRIMARY KEY  (`mballotmentid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=62 ;
+
+--
+-- Dumping data for table `mbookallotment`
+--
+
+INSERT INTO `mbookallotment` (`mballotmentid`, `mballotmentdate`, `sheetid`, `allotmentid`, `mbno`, `staffid`, `mbpage`, `mbremainpage`, `mbtotalpages`, `flag`, `active`, `userid`) VALUES
+(45, '2015-05-21 17:42:08', 1, 256, '', 3, NULL, NULL, 100, 1, 1, 5),
+(46, '2015-05-21 17:42:08', 1, 257, '', 3, NULL, NULL, 100, 1, 1, 5),
+(47, '2015-05-21 17:42:17', 1, 261, '', 3, NULL, NULL, 100, 1, 1, 5),
+(48, '2015-05-21 17:42:17', 1, 262, '', 3, NULL, NULL, 100, 1, 1, 5),
+(49, '2015-05-21 17:42:25', 1, 266, '', 3, NULL, NULL, 100, 1, 1, 5),
+(50, '2015-05-21 17:42:26', 1, 267, '', 3, NULL, NULL, 100, 1, 1, 5),
+(61, '2015-05-21 19:14:15', 1, 264, '', 5, NULL, NULL, 100, 1, 1, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mbookdetail`
+--
+
+CREATE TABLE IF NOT EXISTS `mbookdetail` (
+  `mbdetail_id` int(11) NOT NULL auto_increment,
+  `mbheaderid` int(25) default NULL,
+  `subdivid` int(11) default NULL,
+  `descwork` varchar(250) default NULL,
+  `measurement_no` double NOT NULL,
+  `measurement_l` double NOT NULL,
+  `measurement_b` double NOT NULL,
+  `measurement_d` double NOT NULL,
+  `measurement_dia` varchar(100) NOT NULL,
+  `measurement_contentarea` varchar(50) default NULL,
+  `remarks` varchar(250) default NULL,
+  `mbdetail_flag` varchar(10) NOT NULL,
+  PRIMARY KEY  (`mbdetail_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=71 ;
+
+--
+-- Dumping data for table `mbookdetail`
+--
+
+INSERT INTO `mbookdetail` (`mbdetail_id`, `mbheaderid`, `subdivid`, `descwork`, `measurement_no`, `measurement_l`, `measurement_b`, `measurement_d`, `measurement_dia`, `measurement_contentarea`, `remarks`, `mbdetail_flag`) VALUES
+(1, 1, 10, 'testing on 14.05.15', 1, 2, 0, 0, '8', '2.000', 'M.T', ''),
+(2, 1, 10, 'testing on 14.05.15', 2, 3, 0, 0, '12', '6.000', 'M.T', ''),
+(3, 1, 10, 'testing on 14.05.15', 4, 6, 0, 0, '12', '24.000', 'M.T', ''),
+(4, 1, 10, 'testing on 14.05.15', 2, 6, 0, 0, '16', '12.000', 'M.T', ''),
+(5, 1, 10, 'testing on 14.05.15', 3, 1, 0, 0, '10', '3.000', 'M.T', ''),
+(6, 1, 10, 'testing on 14.05.15', 8, 5, 0, 0, '32', '40.000', 'M.T', ''),
+(7, 1, 10, 'testing on 14.05.15', 2, 8, 0, 0, '28', '16.000', 'M.T', ''),
+(8, 1, 10, 'testing on 14.05.15', 8, 7, 0, 0, '32', '56.000', 'M.T', ''),
+(9, 1, 10, 'testing on 14.05.15', 4, 6, 0, 0, '32', '24.000', 'M.T', ''),
+(10, 1, 10, 'testing on 14.05.15', 6, 4, 0, 0, '32', '24.000', 'M.T', ''),
+(11, 2, 11, 'testing on 14.05.15 item no 10', 12, 8, 0, 0, '32', '96.000', 'MT', ''),
+(12, 2, 11, 'testing on 14.05.15 item no 10', 2, 32, 0, 0, '28', '64.000', 'MT', ''),
+(13, 2, 11, 'testing on 14.05.15 item no 10', 4, 12, 0, 0, '32', '48.000', 'MT', ''),
+(14, 2, 11, 'testing on 14.05.15 item no 10', 1, 2, 0, 0, '32', '2.000', 'MT', ''),
+(15, 2, 11, 'testing on 14.05.15 item no 10', 7, 6, 0, 0, '25', '42.000', 'MT', ''),
+(16, 2, 11, 'testing on 14.05.15 item no 10', 12, 12, 0, 0, '28', '144.000', 'MT', ''),
+(17, 2, 11, 'testing on 14.05.15 item no 10', 7, 9, 0, 0, '20', '63.000', 'MT', ''),
+(18, 2, 11, 'testing on 14.05.15 item no 10', 7, 6, 0, 0, '20', '42.000', 'MT', ''),
+(19, 3, 10, 'testing on 9 date 15.05.15...', 12, 3, 0, 0, '10', '36.000', 'M.T', ''),
+(20, 3, 10, 'testing on 9 date 15.05.15', 3, 1, 0, 0, '8', '3.000', 'M.T', ''),
+(21, 3, 10, 'testing on 9 date 15.05.15', 1, 3, 0, 0, '16', '3.000', 'M.T', ''),
+(22, 4, 11, 'testing on 10 abcdefg date 15.05.15', 23, 2, 0, 0, '10', '46.000', 'MT', ''),
+(23, 4, 11, 'testing on 10 abcdefg date 15.05.15', 4, 6, 0, 0, '8', '24.000', 'MT', ''),
+(24, 4, 11, 'testing on 10 abcdefg date 15.05.15', 4, 3, 0, 0, '20', '12.000', 'MT', ''),
+(25, 4, 11, 'testing on 10 abcdefg date 15.05.15', 4, 6, 0, 0, '16', '24.000', 'MT', ''),
+(26, 4, 11, 'testing on 10 abcdefg date 15.05.15', 4, 3, 0, 0, '12', '12.000', 'MT', ''),
+(27, 5, 10, 'test by prabasingh 16.05.2015', 2, 4, 0, 0, '8', '8.000', 'M.T', ''),
+(28, 5, 10, 'test by prabasingh 16.05.2015', 5, 6, 0, 0, '16', '30.000', 'M.T', ''),
+(29, 5, 10, 'test by prabasingh 16.05.2015', 4, 6, 0, 0, '16', '24.000', 'M.T', ''),
+(30, 5, 10, 'test by prabasingh 16.05.2015', 4, 6, 0, 0, '25', '24.000', 'M.T', ''),
+(31, 5, 10, 'test by prabasingh 16.05.2015', 4, 6, 0, 0, '12', '24.000', 'M.T', ''),
+(32, 6, 11, 'test by prabasingh 16.05.2015', 4, 2, 0, 0, '10', '8.000', 'MT', ''),
+(33, 6, 11, 'test by prabasingh 16.05.2015', 4, 6, 0, 0, '12', '24.000', 'MT', ''),
+(34, 6, 11, 'test by prabasingh 16.05.2015', 4, 3, 0, 0, '8', '12.000', 'MT', ''),
+(35, 6, 11, 'test by prabasingh 16.05.2015', 4, 21, 0, 0, '32', '84.000', 'MT', ''),
+(36, 6, 11, 'test by prabasingh 16.05.2015', 4, 2, 0, 0, '32', '8.000', 'MT', ''),
+(37, 7, 10, 'testing by prabasingh', 4, 6, 0, 0, '8', '24.000', 'M.T', ''),
+(38, 7, 10, 'testing by prabasingh', 4, 6, 0, 0, '10', '24.000', 'M.T', ''),
+(39, 7, 10, 'testing by prabasingh', 4, 6, 0, 0, '10', '24.000', 'M.T', ''),
+(40, 7, 10, 'testing by prabasingh', 4, 6, 0, 0, '10', '24.000', 'M.T', ''),
+(41, 7, 10, 'testing by prabasingh', 4, 6, 0, 0, '8', '24.000', 'M.T', ''),
+(42, 7, 10, 'testing by prabasingh', 4, 6, 0, 0, '25', '24.000', 'M.T', ''),
+(43, 7, 10, 'testing by prabasingh', 4, 6, 0, 0, '16', '24.000', 'M.T', ''),
+(44, 8, 17, 'testing prabasingh', 1, 2, 0, 0, '8', '2.000', 'NOS', ''),
+(45, 8, 17, 'testing prabasingh', 2, 6, 0, 0, '8', '12.000', 'NOS', ''),
+(46, 8, 17, 'testing prabasingh', 4, 6, 0, 0, '12', '24.000', 'NOS', ''),
+(47, 8, 17, 'testing prabasingh', 4, 6, 0, 0, '12', '24.000', 'NOS', ''),
+(48, 8, 17, 'testing prabasingh', 4, 3, 0, 0, '10', '12.000', 'NOS', ''),
+(49, 9, 1, ' test on 1.a', 2, 3, 4, 5, '', '120.000', 'CUM', ''),
+(50, 9, 1, 'test on 1.a 2', 2, 3, 4, 5, '', '120.000', 'CUM', ''),
+(51, 9, 1, 'test on 1.a 3', 3, 4, 5, 6, '', '360.000', 'CUM', ''),
+(52, 10, 3, ' test for 2', 2, 3, 4, 6, '', '144.000', 'CUM', ''),
+(53, 10, 3, 'test for 2 a', 2, 1, 4, 5, '', '40.000', 'CUM', ''),
+(54, 10, 3, ' test for 2 b', 3, 4, 6, 4, '', '288.000', 'CUM', ''),
+(55, 11, 5, ' test for 4', 1, 2, 3, 4, '', '24.000', 'CUM', ''),
+(56, 11, 5, 'test for 4 a', 2, 4, 8, 6, '', '384.000', 'CUM', ''),
+(57, 12, 16, ' test for 15', 2, 5, 4, 6, '', '240.000', 'sqm', ''),
+(58, 12, 16, 'test for 15', 2, 2, 4, 3, '', '48.000', 'sqm', ''),
+(59, 12, 16, 'test for 15', 3, 4, 5, 6, '', '360.000', 'sqm', ''),
+(60, 12, 16, 'test for 15', 1, 4, 2, 3, '', '24.000', 'sqm', ''),
+(61, 13, 1, ' test for 1.a', 2, 3, 4, 5, '', '120.000', 'CUM', ''),
+(62, 13, 1, ' test for 1.a', 2, 1, 4, 5, '', '40.000', 'CUM', ''),
+(63, 13, 1, ' test for 1.a', 7, 8, 9, 4, '', '2016.000', 'CUM', ''),
+(64, 14, 169, 'Â Providing and fixing bolts ', 1, 2, 3, 4, '', '24.000', 'KG', ''),
+(65, 14, 169, 'Providing and fixing bolts including nuts and washers of approved size, quality and make as per requirements as per  ', 3, 4, 5, 6, '', '360.000', 'KG', ''),
+(66, 14, 169, 'Providing and fixing bolts including nuts and washers of approved size,  ', 1, 1, 1, 1, '', '1.000', 'KG', ''),
+(67, 14, 169, 'Providing and fixing bolts including', 2, 2, 2, 2, '', '16.000', 'KG', ''),
+(68, 15, 158, 'All kinds of soil with depth upto', 1, 2, 3, 3, '', '18.000', 'CUM', ''),
+(69, 16, 178, 'Â Providing and fixing bolts ', 1, 2, 3, 4, '', '24.000 ', 'KG', ''),
+(70, 17, 178, 'Providing and fixing bolts including nuts and washers of approved size, quality and make as per requirements as per  ', 3, 4, 5, 6, '', '360.000 ', 'KG', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mbookgenerate`
+--
+
+CREATE TABLE IF NOT EXISTS `mbookgenerate` (
+  `mbgenerateid` int(11) NOT NULL auto_increment,
+  `mbgeneratedate` datetime default NULL,
+  `staffid` int(11) default NULL,
+  `sheetid` int(11) default NULL,
+  `divid` int(11) default NULL,
+  `subdivid` int(11) default NULL,
+  `fromdate` datetime default NULL,
+  `todate` datetime default NULL,
+  `mbno` int(11) default NULL,
+  `mbnopages` varchar(100) default NULL,
+  `mbpage` int(11) default NULL,
+  `mbremainpage` int(11) default NULL,
+  `mbtotalpages` int(11) default NULL,
+  `mbquantity` decimal(11,3) default NULL,
+  `mbtotal` decimal(11,3) default NULL,
+  `abstmbookno` varchar(50) default NULL,
+  `abstmbpage` varchar(50) default NULL,
+  `abstquantity` decimal(11,3) default NULL,
+  `absttotal` decimal(11,2) default NULL,
+  `flag` int(11) default NULL,
+  `rbn` int(11) default NULL,
+  `active` tinyint(1) default NULL,
+  `userid` int(11) default NULL,
+  PRIMARY KEY  (`mbgenerateid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+
+--
+-- Dumping data for table `mbookgenerate`
+--
+
+INSERT INTO `mbookgenerate` (`mbgenerateid`, `mbgeneratedate`, `staffid`, `sheetid`, `divid`, `subdivid`, `fromdate`, `todate`, `mbno`, `mbnopages`, `mbpage`, `mbremainpage`, `mbtotalpages`, `mbquantity`, `mbtotal`, `abstmbookno`, `abstmbpage`, `abstquantity`, `absttotal`, `flag`, `rbn`, `active`, `userid`) VALUES
+(7, '2015-05-21 10:45:00', 3, 1, 1, 1, '2015-05-10 00:00:00', '2015-05-21 00:00:00', 2, 'P1MB 2', NULL, NULL, NULL, NULL, 600.000, NULL, NULL, 0.000, NULL, 1, 1, 1, 5),
+(8, '2015-05-21 10:45:00', 3, 1, 1, 3, '2015-05-10 00:00:00', '2015-05-21 00:00:00', 2, 'P1MB 2', NULL, NULL, NULL, NULL, 472.000, NULL, NULL, 0.000, NULL, 1, 1, 1, 5),
+(9, '2015-05-21 10:45:00', 3, 1, 1, 5, '2015-05-10 00:00:00', '2015-05-21 00:00:00', 2, 'P1MB 2', NULL, NULL, NULL, NULL, 816.000, NULL, NULL, 0.000, NULL, 1, 1, 1, 5),
+(10, '2015-05-21 10:45:00', 3, 1, 1, 16, '2015-05-10 00:00:00', '2015-05-21 00:00:00', 2, 'P1MB 2', NULL, NULL, NULL, NULL, 672.000, NULL, NULL, 0.000, NULL, 1, 1, 1, 5),
+(11, '2015-05-21 10:45:01', 3, 1, 1, 1, '2015-05-10 00:00:00', '2015-05-21 00:00:00', 0, 'P1MB .2', NULL, NULL, NULL, NULL, 2176.000, NULL, NULL, 0.000, NULL, 1, 1, 1, 5),
+(12, '2015-05-21 10:45:01', 3, 1, 1, 0, '2015-05-10 00:00:00', '2015-05-21 00:00:00', 0, 'P2MB ', NULL, NULL, NULL, NULL, 2776.000, NULL, NULL, 0.000, NULL, 1, 1, 1, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mbookheader`
+--
+
+CREATE TABLE IF NOT EXISTS `mbookheader` (
+  `mbheaderid` int(11) NOT NULL auto_increment,
+  `date` date default NULL,
+  `sheetid` int(11) default NULL,
+  `allotmentid` int(11) default NULL,
+  `divid` int(11) default NULL,
+  `subdivid` int(11) default NULL,
+  `active` tinyint(1) default NULL,
+  `userid` int(11) default NULL,
+  `mbheader_flag` varchar(5) NOT NULL,
+  PRIMARY KEY  (`mbheaderid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
+
+--
+-- Dumping data for table `mbookheader`
+--
+
+INSERT INTO `mbookheader` (`mbheaderid`, `date`, `sheetid`, `allotmentid`, `divid`, `subdivid`, `active`, `userid`, `mbheader_flag`) VALUES
+(1, '2015-05-14', 1, 1, 9, 10, 1, 5, ''),
+(2, '2015-05-14', 1, 1, 10, 11, 1, 5, ''),
+(3, '2015-05-15', 1, 1, 9, 10, 1, 5, ''),
+(4, '2015-05-15', 1, 1, 10, 11, 1, 5, ''),
+(5, '2015-05-16', 1, 1, 9, 10, 1, 5, ''),
+(6, '2015-05-16', 1, 1, 10, 11, 1, 5, ''),
+(7, '2015-05-18', 1, 1, 9, 10, 1, 5, ''),
+(8, '2015-05-18', 1, 1, 16, 17, 1, 5, ''),
+(9, '2015-05-18', 1, 1, 1, 1, 1, 5, ''),
+(10, '2015-05-18', 1, 1, 2, 3, 1, 5, ''),
+(11, '2015-05-18', 1, 1, 4, 5, 1, 5, ''),
+(12, '2015-05-19', 1, 1, 15, 16, 1, 5, ''),
+(13, '2015-05-19', 1, 1, 1, 1, 1, 5, ''),
+(14, '2015-05-29', 2, 1, 161, 169, 1, 5, ''),
+(15, '2015-05-29', 2, 1, 151, 158, 1, 5, ''),
+(16, '2015-05-29', 2, 1, 169, 178, 1, 5, ''),
+(17, '2015-05-29', 2, 1, 169, 178, 1, 5, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mbookitemallotment`
+--
+
+CREATE TABLE IF NOT EXISTS `mbookitemallotment` (
+  `itemallotmentid` int(11) NOT NULL auto_increment,
+  `itemallotmentdate` datetime default NULL,
+  `sheetid` int(11) default NULL,
+  `divid` int(11) default NULL,
+  `subdivid` int(11) default NULL,
+  `staffid` int(11) default NULL,
+  `flag` int(11) default NULL,
+  `active` tinyint(1) default NULL,
+  `userid` int(11) default NULL,
+  PRIMARY KEY  (`itemallotmentid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `mbookitemallotment`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `measurementbook`
+--
+
+CREATE TABLE IF NOT EXISTS `measurementbook` (
+  `measurementbookid` int(11) NOT NULL auto_increment,
+  `measurementbookdate` datetime default NULL,
+  `staffid` int(11) default NULL,
+  `sheetid` int(11) default NULL,
+  `divid` int(11) default NULL,
+  `subdivid` int(11) default NULL,
+  `fromdate` datetime default NULL,
+  `todate` datetime default NULL,
+  `mbno` int(11) default NULL,
+  `mbnopages` varchar(100) default NULL,
+  `mbpage` int(11) default NULL,
+  `mbremainpage` int(11) default NULL,
+  `mbtotalpages` int(11) default NULL,
+  `mbquantity` decimal(11,3) default NULL,
+  `mbtotal` decimal(11,3) default NULL,
+  `abstmbookno` varchar(50) default NULL,
+  `abstmbpage` varchar(50) default NULL,
+  `abstquantity` decimal(11,3) default NULL,
+  `absttotal` decimal(11,2) default NULL,
+  `flag` int(11) default NULL,
+  `rbn` int(11) default NULL,
+  `active` tinyint(1) default NULL,
+  `userid` int(11) default NULL,
+  PRIMARY KEY  (`measurementbookid`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `measurementbook`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `mymbook`
+--
+
+CREATE TABLE IF NOT EXISTS `mymbook` (
+  `id` int(11) NOT NULL,
+  `mbookno` varchar(50) NOT NULL,
+  `sheetid` int(11) default NULL,
+  `staffid` int(11) default NULL,
+  `active` tinyint(1) default NULL,
+  `userid` int(11) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `mymbook`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `newmbook`
+--
+
+CREATE TABLE IF NOT EXISTS `newmbook` (
+  `id` int(10) NOT NULL auto_increment,
+  `old_id` int(10) NOT NULL,
+  `mbname` varchar(50) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `newmbook`
+--
+
+INSERT INTO `newmbook` (`id`, `old_id`, `mbname`) VALUES
+(1, 3, '19');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `schdule`
+--
+
+CREATE TABLE IF NOT EXISTS `schdule` (
+  `sch_id` int(11) NOT NULL auto_increment,
+  `sheet_id` int(11) NOT NULL,
+  `sno` varchar(10) NOT NULL,
+  `description` varchar(500) NOT NULL,
+  `shortnotes` varchar(120) default NULL,
+  `total_quantity` int(15) NOT NULL,
+  `rate` decimal(11,2) default NULL,
+  `per` varchar(5) NOT NULL,
+  `total_amt` int(11) NOT NULL,
+  `subdiv_id` int(11) default NULL,
+  `page_no` int(10) NOT NULL,
+  `active` int(1) NOT NULL,
+  `create_dt` date NOT NULL,
+  `user_id` varchar(15) NOT NULL,
+  `measure_type` varchar(10) NOT NULL,
+  PRIMARY KEY  (`sch_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=226 ;
+
+--
+-- Dumping data for table `schdule`
+--
+
+INSERT INTO `schdule` (`sch_id`, `sheet_id`, `sno`, `description`, `shortnotes`, `total_quantity`, `rate`, `per`, `total_amt`, `subdiv_id`, `page_no`, `active`, `create_dt`, `user_id`, `measure_type`) VALUES
+(192, 2, '1', 'Earthwork excavation by mechanical means (Hydraulic excavator) or manual means for foundation, substructures, plinth beam, cess pits & trenches, all kinds of foundation etc.,  in all types of soil like hard gravelly soil, sandy soil for the following  depth from average ground level upto the required founding level, line and grades in both dry and wet conditions including shoring, strutting, bailing out of water if necessary, levelling and ramming the bottom of trenches, dressing of sides, stack', NULL, 0, 0.00, '', 0, 0, 0, 1, '2015-05-24', '5', ''),
+(193, 2, '1.a', 'All kinds of soil with depth upto 1.5m below average Ground level and disposing surplus excavated earth upto a lead of 50 metres.', NULL, 900, 1.00, 'CUM', 0, 158, 0, 1, '2015-05-24', '5', ''),
+(194, 2, '1.b', 'All kinds of soil with depth exceeding 1.5m but not exceeding 3m below average Ground level and disposing surplus excavated earth upto a lead of 50 metres.', NULL, 250, 1.00, 'CUM', 0, 159, 0, 1, '2015-05-24', '5', ''),
+(195, 2, '2', 'Providing and laying plain cement concrete 1:4:8 using 25mm maximum size graded aggregates including mechanical mixing, transporting and placing in required position, ramming, compaction, levelling, curing, shuttering, dewatering if any, complete all as per specification for levelling courses in foundation for walls, footings, floor drains etc., encasing pipes and other required works directed by Engineer-in-Charge complete all as per specifications.', NULL, 260, 1.00, 'CUM', 0, 160, 0, 1, '2015-05-24', '5', 'st'),
+(196, 2, '3', 'Supplying and filling in basement with Quarry dust, filling in layers of not more than 150mm thick, each layer well rammed and consolidated  by hand/mechanical roller including watering, levelling, dressing the top surface to the required level complete all as per specification and as directed by the Engineer.', NULL, 227, 1.00, 'CUM', 0, 161, 0, 1, '2015-05-24', '5', 'st'),
+(197, 2, '4', 'Providing gravel/murram backing/filling 75mm thick (consolidated thickness) for underfloor/plinth beam or as specified by Engineer, including spreading gravel in uniform layers, watering, ramming, consolidating by hand/mechanical roller, dressing the top surface to the required level complete all as per specifications and as directed by the Engineer.', NULL, 227, 1.00, 'CUM', 0, 162, 0, 1, '2015-05-24', '5', 'st'),
+(198, 2, '5', 'Construction of granular sub-base by providing coarse graded material, spreading in uniform layers with motor grader on prepared surface, mixing by mix in place method with rotavator at OMC, and compacting with vibratory roller to achieve the desired density, complete in all respects as per clause 401 of MoRT&H specifications for road and bridge works (4th Revision) and as directed by the Engineer-in-Charge.', NULL, 0, 0.00, '', 0, 0, 0, 1, '2015-05-24', '5', ''),
+(199, 2, '5.1', 'for Grading-I material', NULL, 340, 1.00, 'CUM', 0, 163, 0, 1, '2015-05-24', '5', ''),
+(200, 2, '6', 'Providing 40mm thick concrete flooring with metallic concrete hardner topping at all levels and floors consisting of underlayer of 28mm thick cement concrete 1:1:2 (1 part Cement : 1 part Fine aggregate : 2 part Coarse aggregate of 12.5mm and below size) by volume,  top layer of 12mm thick 1:2 mix (1 part cement with metallic hardener of Hardonate / Ironite or approved equivalent : 2 parts of stone aggregate of 6mm nominal size by volume) (metallic hardener and cement mixed ratio is 1:4) prepare', NULL, 2270, 1.00, 'SQM', 0, 164, 0, 1, '2015-05-24', '5', ''),
+(201, 2, '7', 'Providing and laying cast insitu controlled reinforced cement concrete of specified grade at all levels and lifts mentioned below using 20mm maximum size hard granite machine crushed graded stone aggregates including weigh batching, charges for mixing & cost of admixture,  mechanical mixing, transporting and placing at all lifts, vibrating, consolidating, curing and finishing smooth of all exposed faces complete for column footings, columns, lintels, sunshades, gutter slabs, beams, slabs, water ', NULL, 0, 0.00, '', 0, 0, 0, 1, '2015-05-24', '5', ''),
+(202, 2, '7.1', 'M30 grade with 370 kg. of cement per cu.m. of concrete for all floors', NULL, 510, 1.00, 'CUM', 0, 165, 0, 1, '2015-05-24', '5', ''),
+(203, 2, '8', 'Supplying, fabricating, erecting and fixing in position at all levels, centering and shuttering to correct line and levels including strutting, propping, etc., with necessary bracings in all axes to give a stable assembly with provision for making the joints in the shuttering fully leak proof and with provision for fixing  coil nuts with tie rods along with suitable channel for lateral supports and for inserts, projecting dowels, anchor bolts or any other fixture, including staging, access and w', NULL, 460, 1.00, 'SQM', 0, 166, 0, 1, '2015-05-24', '5', ''),
+(204, 2, '9', 'Providing, straightening, decoiling wherever necessary bending, cutting, binding and fixing in position steel reinforcement TMT bars of  Fe500D grade steel conforming to IS:1786 SAIL or VIZAG or approved equivalent make and tying with approved annealed binding wire of 1.6mm dia in all reinforced cement concrete work at all lifts, including cost of supplying and fixing the spacer/cover blocks in cement mortar 1:2 and binding wire complete all as per specification and as directed by Engineer-in-Ch', NULL, 62, 1.00, 'M.T', 0, 167, 0, 1, '2015-05-24', '5', 's'),
+(205, 2, '10', 'Providing, supplying, cutting, bending to shape,  welding, fabricating, hoisting, placing and fixing in position structural steel members like trusses, purlins etc. using  MS hollow / circular / square / rectangular tubular sections including chamfering and rounding off the edges, applying a coat of Red lead paint primer  / Zinc chromate primer of approved make and 2 coats of flat oil paint / synthetic enamel paint of approved colour and make, scaffolding and staging required for fabrication as ', NULL, 70, 1.00, 'MT', 0, 168, 0, 1, '2015-05-24', '5', 's'),
+(206, 2, '11', 'Providing and fixing bolts including nuts and washers of approved size, quality and make as per requirements as per specifications and drawings complete all as directed at site by the Engineer-in-Charge.', NULL, 3670, 1.00, 'KG', 0, 169, 0, 1, '2015-05-24', '5', ''),
+(207, 2, '12', 'Supplying and fixing Rolling shutters of approved make as per ISI standards made out of required size of MS Laths interlocked together throughout entire length and jointed together at the end by end locks mounted on specially designed pipes shaft with brackets, side guides and arrangements for inside & outside locking with Push and Pull operation complete including the cost of providing and fixing necessary 27.5 cm long wire springs grade No 2. and M.S. Top cover of required thickness for Rollin', NULL, 40, 1.00, 'SQM', 0, 170, 0, 1, '2015-05-24', '5', ''),
+(208, 2, '', 'rebate', NULL, 3, 0.00, '', 0, 170, 0, 1, '2015-05-24', '5', ''),
+(209, 1, '1', 'Earthwork excavation by mechanical means (Hydraulic excavator) or manual means for foundation, substructures, plinth beam, cess pits & trenches, all kinds of foundation etc.,  in all types of soil like hard gravelly soil, sandy soil for the following  depth from average ground level upto the required founding level, line and grades in both dry and wet conditions including shoring, strutting, bailing out of water if necessary, levelling and ramming the bottom of trenches, dressing of sides, stack', NULL, 0, 0.00, '', 0, 0, 0, 1, '2015-05-24', '5', ''),
+(210, 1, '1.a', 'All kinds of soil with depth upto 1.5m below average Ground level and disposing surplus excavated earth upto a lead of 50 metres.', NULL, 900, 1.00, 'CUM', 0, 171, 0, 1, '2015-05-24', '5', ''),
+(211, 1, '1.b', 'All kinds of soil with depth exceeding 1.5m but not exceeding 3m below average Ground level and disposing surplus excavated earth upto a lead of 50 metres.', NULL, 250, 1.00, 'CUM', 0, 172, 0, 1, '2015-05-24', '5', ''),
+(212, 1, '2', 'Providing and laying plain cement concrete 1:4:8 using 25mm maximum size graded aggregates including mechanical mixing, transporting and placing in required position, ramming, compaction, levelling, curing, shuttering, dewatering if any, complete all as per specification for levelling courses in foundation for walls, footings, floor drains etc., encasing pipes and other required works directed by Engineer-in-Charge complete all as per specifications.', NULL, 260, 1.00, 'CUM', 0, 173, 0, 1, '2015-05-24', '5', 'st'),
+(213, 1, '3', 'Supplying and filling in basement with Quarry dust, filling in layers of not more than 150mm thick, each layer well rammed and consolidated  by hand/mechanical roller including watering, levelling, dressing the top surface to the required level complete all as per specification and as directed by the Engineer.', NULL, 227, 1.00, 'CUM', 0, 174, 0, 1, '2015-05-24', '5', 'st'),
+(214, 1, '4', 'Providing gravel/murram backing/filling 75mm thick (consolidated thickness) for underfloor/plinth beam or as specified by Engineer, including spreading gravel in uniform layers, watering, ramming, consolidating by hand/mechanical roller, dressing the top surface to the required level complete all as per specifications and as directed by the Engineer.', NULL, 227, 1.00, 'CUM', 0, 175, 0, 1, '2015-05-24', '5', 'st'),
+(215, 1, '5', 'Construction of granular sub-base by providing coarse graded material, spreading in uniform layers with motor grader on prepared surface, mixing by mix in place method with rotavator at OMC, and compacting with vibratory roller to achieve the desired density, complete in all respects as per clause 401 of MoRT&H specifications for road and bridge works (4th Revision) and as directed by the Engineer-in-Charge.', NULL, 0, 0.00, '', 0, 0, 0, 1, '2015-05-24', '5', ''),
+(216, 1, '5.1', 'for Grading-I material', NULL, 340, 1.00, 'CUM', 0, 176, 0, 1, '2015-05-24', '5', ''),
+(217, 1, '6', 'Providing 40mm thick concrete flooring with metallic concrete hardner topping at all levels and floors consisting of underlayer of 28mm thick cement concrete 1:1:2 (1 part Cement : 1 part Fine aggregate : 2 part Coarse aggregate of 12.5mm and below size) by volume,  top layer of 12mm thick 1:2 mix (1 part cement with metallic hardener of Hardonate / Ironite or approved equivalent : 2 parts of stone aggregate of 6mm nominal size by volume) (metallic hardener and cement mixed ratio is 1:4) prepare', NULL, 2270, 1.00, 'SQM', 0, 177, 0, 1, '2015-05-24', '5', ''),
+(218, 1, '7', 'Providing and laying cast insitu controlled reinforced cement concrete of specified grade at all levels and lifts mentioned below using 20mm maximum size hard granite machine crushed graded stone aggregates including weigh batching, charges for mixing & cost of admixture,  mechanical mixing, transporting and placing at all lifts, vibrating, consolidating, curing and finishing smooth of all exposed faces complete for column footings, columns, lintels, sunshades, gutter slabs, beams, slabs, water ', NULL, 0, 0.00, '', 0, 0, 0, 1, '2015-05-24', '5', ''),
+(219, 1, '7.1', 'M30 grade with 370 kg. of cement per cu.m. of concrete for all floors', NULL, 510, 1.00, 'CUM', 0, 178, 0, 1, '2015-05-24', '5', ''),
+(220, 1, '8', 'Supplying, fabricating, erecting and fixing in position at all levels, centering and shuttering to correct line and levels including strutting, propping, etc., with necessary bracings in all axes to give a stable assembly with provision for making the joints in the shuttering fully leak proof and with provision for fixing  coil nuts with tie rods along with suitable channel for lateral supports and for inserts, projecting dowels, anchor bolts or any other fixture, including staging, access and w', NULL, 460, 1.00, 'SQM', 0, 179, 0, 1, '2015-05-24', '5', ''),
+(221, 1, '9', 'Providing, straightening, decoiling wherever necessary bending, cutting, binding and fixing in position steel reinforcement TMT bars of  Fe500D grade steel conforming to IS:1786 SAIL or VIZAG or approved equivalent make and tying with approved annealed binding wire of 1.6mm dia in all reinforced cement concrete work at all lifts, including cost of supplying and fixing the spacer/cover blocks in cement mortar 1:2 and binding wire complete all as per specification and as directed by Engineer-in-Ch', NULL, 62, 1.00, 'M.T', 0, 180, 0, 1, '2015-05-24', '5', 's'),
+(222, 1, '10', 'Providing, supplying, cutting, bending to shape,  welding, fabricating, hoisting, placing and fixing in position structural steel members like trusses, purlins etc. using  MS hollow / circular / square / rectangular tubular sections including chamfering and rounding off the edges, applying a coat of Red lead paint primer  / Zinc chromate primer of approved make and 2 coats of flat oil paint / synthetic enamel paint of approved colour and make, scaffolding and staging required for fabrication as ', NULL, 70, 1.00, 'MT', 0, 181, 0, 1, '2015-05-24', '5', 's'),
+(223, 1, '11', 'Providing and fixing bolts including nuts and washers of approved size, quality and make as per requirements as per specifications and drawings complete all as directed at site by the Engineer-in-Charge.', NULL, 3670, 1.00, 'KG', 0, 182, 0, 1, '2015-05-24', '5', ''),
+(224, 1, '12', 'Supplying and fixing Rolling shutters of approved make as per ISI standards made out of required size of MS Laths interlocked together throughout entire length and jointed together at the end by end locks mounted on specially designed pipes shaft with brackets, side guides and arrangements for inside & outside locking with Push and Pull operation complete including the cost of providing and fixing necessary 27.5 cm long wire springs grade No 2. and M.S. Top cover of required thickness for Rollin', NULL, 40, 1.00, 'SQM', 0, 183, 0, 1, '2015-05-24', '5', ''),
+(225, 1, '', 'rebate', NULL, 3, 0.00, '', 0, 183, 0, 1, '2015-05-24', '5', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sheet`
+--
+
+CREATE TABLE IF NOT EXISTS `sheet` (
+  `sheet_id` int(11) NOT NULL auto_increment,
+  `sheet_name` varchar(50) default NULL,
+  `work_order_no` varchar(100) NOT NULL,
+  `work_name` varchar(250) default NULL,
+  `tech_sanction` varchar(150) default NULL,
+  `name_contractor` varchar(150) default NULL,
+  `agree_no` varchar(50) default NULL,
+  `computer_code_no` varchar(50) NOT NULL,
+  `work_order_date` date NOT NULL,
+  `rbn` int(11) default NULL,
+  `date_upt` date NOT NULL,
+  `active` varchar(1) NOT NULL,
+  PRIMARY KEY  (`sheet_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `sheet`
+--
+
+INSERT INTO `sheet` (`sheet_id`, `sheet_name`, `work_order_no`, `work_name`, `tech_sanction`, `name_contractor`, `agree_no`, `computer_code_no`, `work_order_date`, `rbn`, `date_upt`, `active`) VALUES
+(1, 'PRICE BID-029(bill format)-EVxls 2.xls', 'test 12345', 'test 12345', 'test 12345', 'test 12345', 'test 12345', 'test 12345', '2015-05-03', NULL, '2015-05-24', '1'),
+(2, 'PRICE BID-029(bill format)-EVxls 2.xls', 'test abc', 'test abc', 'test abc', 'test abc', 'test abc', 'test abc', '2015-05-09', NULL, '2015-05-24', '1'),
+(3, NULL, 'wdv', 'fef', 'evw', 'vv', 'vwwdv', 'wvw', '2015-05-05', NULL, '0000-00-00', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `staff`
+--
+
+CREATE TABLE IF NOT EXISTS `staff` (
+  `staffid` int(11) NOT NULL auto_increment,
+  `staffcode` varchar(50) NOT NULL,
+  `staffname` varchar(250) NOT NULL,
+  `email` varchar(250) NOT NULL,
+  `designationid` int(11) default NULL,
+  `mobile` varchar(250) default NULL,
+  `intercom` varchar(250) default NULL,
+  `DOJ` date default NULL,
+  `DOB` date default NULL,
+  `active` tinyint(1) default '0',
+  `image` varchar(100) default NULL,
+  `userid` int(11) default NULL,
+  `useracc` int(11) NOT NULL,
+  PRIMARY KEY  (`staffcode`),
+  UNIQUE KEY `email` (`email`),
+  KEY `staffid` (`staffid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC AUTO_INCREMENT=12 ;
+
+--
+-- Dumping data for table `staff`
+--
+
+INSERT INTO `staff` (`staffid`, `staffcode`, `staffname`, `email`, `designationid`, `mobile`, `intercom`, `DOJ`, `DOB`, `active`, `image`, `userid`, `useracc`) VALUES
+(11, 'IC0015', 'prabasingh', 'praba@praba.com', 4, '9632587410', '564235', '2015-05-13', '2015-05-13', 1, 'IC0015Hydrangeas.jpg', 1, 0),
+(3, 'IC001', 'Arun', 'arun@aaaaa.in', 2, '1234567890', '12345', '2015-04-08', '2015-04-20', 1, 'Chrysanthemum.jpg', 1, 1),
+(5, '4132', 'Deepak', 'deepak@gmail.com', 6, '9840666666', '0', '0000-00-00', '2015-04-20', 1, 'Hydrangeas.jpg', 1, 1),
+(7, 'IC0003', 'karthik', 'kar@gmail.com', 4, '9632587414', '0', '0000-00-00', '2015-04-23', 1, 'templatemo_image_11.jpg', 1, 1),
+(10, 'IC008', 'Praba', 'praba@live.in', 4, '9874563210', '123456', '2013-04-08', '1986-04-01', 1, 'IC008Penguins.jpg', 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `subdivision`
+--
+
+CREATE TABLE IF NOT EXISTS `subdivision` (
+  `subdiv_id` int(11) NOT NULL auto_increment,
+  `subdiv_name` varchar(50) NOT NULL,
+  `div_id` int(11) default NULL,
+  `active` tinyint(1) default NULL,
+  `userid` int(11) default NULL,
+  PRIMARY KEY  (`subdiv_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=184 ;
+
+--
+-- Dumping data for table `subdivision`
+--
+
+INSERT INTO `subdivision` (`subdiv_id`, `subdiv_name`, `div_id`, `active`, `userid`) VALUES
+(158, '1.a', 151, 1, NULL),
+(159, '1.b', 151, 1, NULL),
+(160, '2', 152, 1, NULL),
+(161, '3', 153, 1, NULL),
+(162, '4', 154, 1, NULL),
+(163, '5.1', 155, 1, NULL),
+(164, '6', 156, 1, NULL),
+(165, '7.1', 157, 1, NULL),
+(166, '8', 158, 1, NULL),
+(167, '9', 159, 1, NULL),
+(168, '10', 160, 1, NULL),
+(169, '11', 161, 1, NULL),
+(170, '12', 162, 1, NULL),
+(171, '1.a', 163, 1, NULL),
+(172, '1.b', 163, 1, NULL),
+(173, '2', 164, 1, NULL),
+(174, '3', 165, 1, NULL),
+(175, '4', 166, 1, NULL),
+(176, '5.1', 167, 1, NULL),
+(177, '6', 168, 1, NULL),
+(178, '7.1', 169, 1, NULL),
+(179, '8', 170, 1, NULL),
+(180, '9', 171, 1, NULL),
+(181, '10', 172, 1, NULL),
+(182, '11', 173, 1, NULL),
+(183, '12', 174, 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `temp`
+--
+
+CREATE TABLE IF NOT EXISTS `temp` (
+  `tempid` int(11) NOT NULL,
+  `tmpdate` datetime default NULL,
+  `subdivid` int(11) default NULL,
+  `pages` int(11) default NULL,
+  `totals` decimal(11,3) default NULL,
+  `mbookno` varchar(50) character set utf8 default NULL,
+  `flag` int(11) default NULL,
+  `active` tinyint(1) default NULL,
+  `usersid` int(11) default NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `temp`
+--
+
+INSERT INTO `temp` (`tempid`, `tmpdate`, `subdivid`, `pages`, `totals`, `mbookno`, `flag`, `active`, `usersid`) VALUES
+(0, '2015-05-18 00:00:00', 1, 1, 600.000, '3', 0, NULL, 5),
+(0, '2015-05-18 00:00:00', 3, 1, 1888.000, '2', 1, NULL, 5),
+(0, '2015-05-18 00:00:00', 5, 1, 3264.000, '2', 1, NULL, 5),
+(0, '2015-05-19 00:00:00', 16, 1, 2688.000, '2', 1, NULL, 5),
+(0, '2015-05-19 00:00:00', 1, 1, 2176.000, '3', 0, NULL, 5),
+(0, '2015-05-25 14:44:55', 0, 1, 0.000, '2', 3, NULL, 5),
+(0, '2015-05-25 14:44:55', 0, 0, 0.000, '', 3, NULL, 5);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `userpriviliages`
+--
+
+CREATE TABLE IF NOT EXISTS `userpriviliages` (
+  `pageid` int(11) NOT NULL,
+  `userid` int(11) NOT NULL,
+  `ad` varchar(1) NOT NULL,
+  `del` varchar(1) NOT NULL,
+  `modd` varchar(1) NOT NULL,
+  `vieww` varchar(1) NOT NULL,
+  `uplad` varchar(1) NOT NULL,
+  `active` int(11) NOT NULL,
+  `createdt` datetime NOT NULL,
+  `modifydt` datetime NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `userpriviliages`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `userid` int(11) NOT NULL auto_increment,
+  `username` varchar(50) default NULL,
+  `password` varchar(50) default NULL,
+  `staffid` int(11) default NULL,
+  `isadmin` tinyint(1) default NULL,
+  `active` tinyint(1) default NULL,
+  `usersid` int(11) default NULL,
+  `pageid` varchar(50) NOT NULL,
+  PRIMARY KEY  (`userid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`userid`, `username`, `password`, `staffid`, `isadmin`, `active`, `usersid`, `pageid`) VALUES
+(1, 'admin', 'admin', 0, 1, 1, 1, '1'),
+(5, 'arun', 'arun', 3, 1, 1, 1, ''),
+(6, 'deepak', 'deepak', 5, 1, 1, 1, ''),
+(7, 'karthik', 'karthik', 7, 1, 1, 1, ''),
+(8, 'praba', 'praba', 10, 1, 1, 1, '');

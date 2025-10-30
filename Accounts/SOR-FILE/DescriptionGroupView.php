@@ -1,0 +1,315 @@
+<?php
+@ob_start();
+require_once 'library/config.php';
+require_once 'library/functions.php';
+require_once 'library/binddata.php';
+require_once 'library/declaration.php';
+include "common.php";
+$PageName = $PTPart1.$PTIcon.'Administrator'.$PTIcon.'Item Description';
+//checkUser();
+$msg = ""; $del = 0;
+$RowCount = 0;
+$staffid  = $_SESSION['sid'];
+
+$DataSheetArr = array();
+$SelectDataSheetQuery	= "select distinct id from datasheet_master where id != 0";
+$SelectDataSheetSql 	= mysqli_query($dbConn,$SelectDataSheetQuery);
+if($SelectDataSheetSql == true){
+	if(mysqli_num_rows($SelectDataSheetSql)>0){
+		while($DSList = mysqli_fetch_object($SelectDataSheetSql)){
+			array_push($DataSheetArr,$DSList->id);
+		}
+	}
+}
+
+/*$SelectMasterGroupQuery	= "select * from group_datasheet where active = 1";
+$SelectMasterGroupSql 	= mysqli_query($dbConn,$SelectMasterGroupQuery);
+$MasterGroupCnt 	 	= 0;
+if($SelectMasterGroupSql == true){
+	if(mysqli_num_rows($SelectMasterGroupSql)>0){
+		$MasterGroupCnt = 1;
+	}
+}*/
+
+$result   = mysqli_query($dbConn,"SELECT * FROM group_datasheet where active = 1 ORDER BY par_id asc");// ORDER BY type asc, group_id asc");
+$category = array(
+	'categories' => array(),
+	'parent_cats' => array()
+);
+//build the array lists with data from the category table
+while($row = mysqli_fetch_assoc($result)) {
+	$category['categories'][$row['id']] = $row;
+	$category['parent_cats'][$row['par_id']][] = $row['id'];
+}
+
+
+function buildCategory($parent, $category, $conn) {
+	global $dbConn, $dbConn, $GlobLCItemArr, $GlobCapacity, $GlobNetPayableAfterVoidDed, $GlobLCItemCodeArr;
+	include "DefaultMaster.php";
+	$html = "";
+	if (isset($category['parent_cats'][$parent])) {
+		foreach ($category['parent_cats'][$parent] as $cat_id) {
+			//if(!isset($category['parent_cats'][$cat_id])) {
+				/// Here have to take the datasheet
+				$Type = $category['categories'][$cat_id]['type'];
+				$ID = $category['categories'][$cat_id]['id'];
+				$MasterRefId = '';
+				
+				$IsDataSheet = 0;
+				
+				$DMGroupCode = ''; $DMGroupDesc = ''; $DMQty = ''; $DMUnit = ''; $DMGId = ''; $DMParId = ''; $DMNewMerge = ''; $DMCalcType = ''; $DMCostDtDesc = ''; $DMRefId = ''; $DMDisposQty = 0;
+				$SelectQuery1 	= "select * from datasheet_master where id = '$ID'";
+				//echo $SelectQuery1."<br/>";
+				$SelectSql1 	= mysqli_query($dbConn,$SelectQuery1);
+				if($SelectSql1 == true){
+					if(mysqli_num_rows($SelectSql1)>0){
+						$List1 	= mysqli_fetch_object($SelectSql1);
+						$DMRefId 	= $List1->ref_id;
+						$DMGroupCode 	= $List1->type;
+						$DMGroupDesc 	= $List1->group3_description;
+						$DMQty 			= $List1->quantity;
+						$DMUnit 		= $List1->unit;
+						$DMGId 			= $List1->id;
+						$DMParId 		= $List1->par_id;
+						$DMNewMerge 	= $List1->new_merge;
+						$DMCalcType 	= $List1->calc_type;
+						$DMCostDtDesc 	= $List1->cost_dt;
+						$DMDisposQty 	= $List1->disp_qty_perc;
+						$DMAverage 		= $List1->is_average;
+						$IsDataSheet	= 1;
+					}
+				}
+
+				$html .= "<tr class='labeldisplay'><td class='tdrowbold' valign='middle' align='center'>" . $category['categories'][$cat_id]['type'] ."</td><td valign='middle' class='tdrow'>". $category['categories'][$cat_id]['group_desc'] . "</td><td class='tdrow' valign='middle'>&nbsp;</td><td class='tdrow' valign='middle'>&nbsp;</td></tr>";
+				$html .= buildCategory($cat_id, $category, $conn);
+		}
+	}
+	return $html;
+}
+
+
+
+
+if((isset($_GET['Action']) == "D")&&(isset($_GET['id']))){
+	$DeleteId 		= $_GET['id'];
+	$DeleteQuery 	= "update group_datasheet set active = 0 where id = '$DeleteId'";
+	$DeleteSql 		= mysqli_query($dbConn,$DeleteQuery);
+}
+
+//print_r($DataSheetArr);exit;
+?>
+
+<link rel="stylesheet" href="dashboard/MyView/bootstrap.min.css">
+<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+<?php include "Header.html"; ?>
+	<script src="dashboard/MyView/bootstrap.min.js"></script>
+	<script type="text/javascript">
+		window.history.forward();
+		function noBack() { window.history.forward(); }
+	</script>
+	
+    <body class="page1" id="top" oncontextmenu="return false"onload="noBack();" onpageshow="if (event.persisted) noBack();" onUnload="">
+        <!--==============================header=================================-->
+        <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post" enctype="multipart/form-data" name="form" id="form1">
+            <?php include "Menu.php"; ?>
+            <!--==============================Content=================================-->
+			<div class="content">
+				<?php include "MainMenu.php"; ?>
+				<div class="container_12">
+					<div class="grid_12" align="center">
+						<div align="right" class="users-icon-part">&nbsp;</div>
+						<blockquote class="bq1" style="overflow:auto">
+							<div class="row">
+								<div class="div12" align="center"></div>
+							</div>
+							<div class="row">
+								<div class="div1" align="center">&nbsp;</div>
+								<div class="div10" align="center">
+									<table class="group-table table itemtable formtable">
+										<thead>
+											<tr><th colspan="5" style="background:#02497E; color:#fff;">Item Description Edit List</th></tr>
+											<tr>
+												<th>SNo.</th>
+												<th nowrap="nowrap">Group Code</th>
+												<th>Group Description</th>
+												<th colspan="2">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+										<?php echo buildCategory(0, $category, $conn); ?>
+										<?php /*$SNo = 1; if($MasterGroupCnt == 1){ while($DetailList = mysqli_fetch_object($SelectMasterGroupSql)){ ?>
+											<tr>
+												<td align="center"><?php echo $SNo; $SNo++; ?></td>
+												<td align="center">
+													<span class="staticSpan" id="SType<?php echo $DetailList->id; ?>"><?php echo $DetailList->type; ?></span>
+													<span class="dynamicSpan gCode hide" id="DType<?php echo $DetailList->id; ?>" data-id="<?php echo $DetailList->id; ?>" contenteditable="true"><?php echo $DetailList->type; ?></span>
+												</td>
+												<td align="justify">
+													<span class="staticSpan" id="SDesc<?php echo $DetailList->id; ?>"><?php echo $DetailList->group_desc; ?></span>
+													<span class="dynamicSpan hide" id="DDesc<?php echo $DetailList->id; ?>" contenteditable="true"><?php echo $DetailList->group_desc; ?></span>
+												</td>
+												<td class="cboxlabel">
+													<?php if (in_array($DetailList->id, $DataSheetArr)){ ?>
+													<button type="button" title="Data sheet already created. You can't able to edit." class="btn fa-btn-e" id="EBtn<?php echo $DetailList->id; ?>" data-id="<?php echo $DetailList->id; ?>"><i class="fa fa-edit"></i></button>
+													<?php }else{ ?>
+													<button type="button" title="Edit" class="btn fa-btn-e gEdit" id="EBtn<?php echo $DetailList->id; ?>" data-id="<?php echo $DetailList->id; ?>"><i class="fa fa-edit"></i></button>
+													<?php } ?>
+													<button type="button" title="Save" class="btn fa-btn-o gSave hide" id="SBtn<?php echo $DetailList->id; ?>" data-id="<?php echo $DetailList->id; ?>"><i class="fa fa-check-circle-o"></i></button>
+													<div class="gDiv hide" id="GDiv<?php echo $DetailList->id; ?>"></div>
+													<button type="button" title="Cancel" class="btn fa-btn-c gCancel hide" id="CBtn<?php echo $DetailList->id; ?>" data-id="<?php echo $DetailList->id; ?>"><i class="fa fa-times-circle-o"></i></button>
+												</td>
+												<td class="cboxlabel">
+													<?php if (in_array($DetailList->id, $DataSheetArr)){ ?>
+													<button type="button" title="Data sheet already created. You can't able to delete." class="btn fa-btn-d" data-id="<?php echo $DetailList->id; ?>"><i class="fa fa-trash-o"></i></button>
+													<?php }else{ ?>
+													<button type="button" title="Delete" class="btn fa-btn-d gDelete" data-id="<?php echo $DetailList->id; ?>"><i class="fa fa-trash-o"></i></button>
+													<?php } ?>
+												</td>
+											</tr>
+										<?php } }*/ ?>
+										</tbody>
+									</table>
+								</div>
+								<div class="div1" align="center">&nbsp;</div>
+								<div class="div12" align="center">
+									<a data-url="Administrator" class="btn btn-info">Back</a>
+								</div>
+								<div class="div12" align="center">&nbsp;</div>
+							</div>
+						</blockquote>
+					</div>
+				</div>
+			</div>
+            <!--==============================footer=================================-->
+           <?php   include "footer/footer.html"; ?>
+            <script src="js/jquery.hoverdir.js"></script>
+        </form>
+    </body>
+</html>
+<script>
+$(document).ready(function(){
+	$('.dropdown-submenu a.test').on("click", function(e){
+    	$(this).next('ul').toggle();
+    	e.stopPropagation();
+    	e.preventDefault();
+  	});
+  	$('#btn_view_single').click(function(event){ 
+  		$(location).attr("href","ItemMasterView.php");
+		event.preventDefault();
+		return false;
+  	});
+	//('.gEdit').click(function(event){ 
+	$('body').on("click",".gEdit", function(event){ 
+		var id = $(this).attr("data-id");
+		$("#SType"+id).addClass("hide");
+		$("#SDesc"+id).addClass("hide");
+		$("#EBtn"+id).addClass("hide");
+		
+		$("#DType"+id).removeClass("hide");
+		$("#DDesc"+id).removeClass("hide");
+		$("#SBtn"+id).removeClass("hide");
+		$("#CBtn"+id).removeClass("hide");
+		$("#GDiv"+id).removeClass("hide");
+		event.preventDefault();
+		return false;
+  	});
+	$('body').on("blur",".gCode", function(e){  
+		var newGroup = $(this).text();
+		var GroupId = $(this).attr("data-id");
+		$.ajax({ 
+			type: 'POST', 
+			url: 'find_group_code_exist.php', 
+			data: { newGroup: newGroup, GroupId: GroupId }, 
+			success: function (data) { 
+				if(data > 0){
+					BootstrapDialog.alert("Error: Group Code - "+newGroup+" already exist. Please try another Group Code");
+					var OldGCode = $("#SType"+GroupId).text();
+					$("#DType"+GroupId).text(OldGCode);
+				}
+			}
+		});
+	});
+	$('body').on("click",".gSave", function(event){ 
+		var id 	 	  = $(this).attr("data-id");
+		var GroupDesc = $("#DDesc"+id).text();
+		var GroupCode = $("#DType"+id).text();
+		$.ajax({ 
+			type: 'POST', 
+			url: 'ajax/GroupUpdate.php', 
+			data: { id: id, GroupDesc: GroupDesc, GroupCode: GroupCode }, 
+			success: function (data) {
+				if(data == 1){
+					$("#SDesc"+id).text(GroupDesc);
+					$("#SType"+id).text(GroupCode);
+					$("#SType"+id).removeClass("hide");
+					$("#SDesc"+id).removeClass("hide");
+					$("#EBtn"+id).removeClass("hide");
+					$("#DType"+id).addClass("hide");
+					$("#DDesc"+id).addClass("hide");
+					$("#SBtn"+id).addClass("hide");
+					$("#CBtn"+id).addClass("hide");
+					$("#GDiv"+id).addClass("hide");
+					BootstrapDialog.alert("Group data updated successfully");
+				}else{
+					BootstrapDialog.alert("Error : Group data not updated. Please try again");
+				}
+			}
+		});
+		event.preventDefault();
+		return false;
+  	});
+	$('body').on("click",".gCancel", function(event){ 
+		var id 	 	  = $(this).attr("data-id");
+		var GroupDesc = $("#SDesc"+id).text();
+		var GroupCode = $("#SType"+id).text();
+		$("#DDesc"+id).text(GroupDesc);
+		$("#DType"+id).text(GroupCode);
+		$("#SType"+id).removeClass("hide");
+		$("#SDesc"+id).removeClass("hide");
+		$("#EBtn"+id).removeClass("hide");
+		$("#DType"+id).addClass("hide");
+		$("#DDesc"+id).addClass("hide");
+		$("#SBtn"+id).addClass("hide");
+		$("#CBtn"+id).addClass("hide");
+		$("#GDiv"+id).addClass("hide");
+		event.preventDefault();
+		return false;
+  	});
+	//$('.gDelete').click(function(event){ 
+	/*$('body').on("click",".gDelete", function(event){ 
+		var id = $(this).attr("data-id");
+  		$(location).attr("href","HorticultureGroupView.php?Action=D&id="+id);
+		event.preventDefault();
+		return false;
+  	});*/
+	
+	$('body').on("click",".gDelete", function(event){ 
+		var id = $(this).attr("data-id");
+		BootstrapDialog.confirm('Are you sure want to delete ?', function(result){
+			if(result) {
+				$(location).attr("href","DescriptionGroupView.php?Action=D&id="+id);
+			}else {
+				//return false;
+			}
+		});
+	});
+	
+	var newWidget="<div class='widget-wrapper'> <ul class='tab-wrapper'></ul> <div class='new-widget'></div></div>";
+    $(".widget").hide();
+    $(".widget:first").before(newWidget);
+    $(".widget > div").each(function(){
+		var title = $(this).attr("data-title");
+        $(".tab-wrapper").append("<li class='tab' id='"+this.id+"'>"+title+"</li>");
+        $(this).appendTo(".new-widget");
+    });
+    $(".tab").click(function(){
+        $(".new-widget > div").hide();
+		var liId = $(this).attr('id');
+        $('.new-widget #'+liId).show();//alert(liId);
+        $(".tab").removeClass("active-tab");
+        $(this).addClass("active-tab");
+    });
+    $(".tab:first").click();
+	
+});
+</script>

@@ -1,0 +1,74 @@
+<div id="basic-modal-content" align="center">
+<form action="" method="post" enctype="multipart/form-data" name="form" id="con-form">
+	<table class="TableA" width="80%">
+		<tr class="label">
+			<td align="left">Contractor Name</td>
+			<td align="center"><input type="text"  name='txt_modal_entry_cont_name' id='txt_modal_entry_cont_name' class="modal-textbox"></td>
+		</tr>
+		<tr>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+		</tr>
+		<tr class="label">
+			<td align="left">Contractor Address</td>
+			<td align="center"><textarea  name='txt_modal_entry_cont_addr' id='txt_modal_entry_cont_addr' class="modal-textbox"></textarea></td>
+		</tr>
+		<tr>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+		</tr>
+		<tr class="label">
+			<td align="left">Contractor State.</td>
+			<td align="center"><input type="text"  name='txt_modal_entry_cont_state' id='txt_modal_entry_cont_state' class="modal-textbox"></td>
+		</tr>
+		<tr>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+		</tr>
+		<tr class="label">
+			<td align="left">Bank Account No.</td>
+			<td align="center"><input type="text"  name='txt_modal_entry_acc_no' id='txt_modal_entry_acc_no' class="modal-textbox"></td>
+		</tr>
+		<tr>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+		</tr>
+		<tr class="label">
+			<td align="left">Bank Name</td>
+			<td align="center"><input type="text"  name='txt_modal_entry_bank_name' id='txt_modal_entry_bank_name' class="modal-textbox"></td>
+		</tr>
+		<tr>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+		</tr>
+		<tr class="label">
+			<td align="left">Branch Name</td>
+			<td align="center"><input type="text"  name='txt_modal_entry_br_name' id='txt_modal_entry_br_name' class="modal-textbox"></td>
+		</tr>
+		<tr>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+		</tr>
+		<tr class="label">
+			<td align="left">PAN No.</td>
+			<td align="center"><input type="text"  name='txt_modal_entry_pan_no' id='txt_modal_entry_pan_no' class="modal-textbox"></td>
+		</tr>
+		<tr>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+		</tr>
+		<tr class="label">
+			<td align="left">GST No.</td>
+			<td align="center"><input type="text"  name='txt_modal_entry_gst_no' id='txt_modal_entry_gst_no' class="modal-textbox"></td>
+		</tr>
+		<tr>
+			<td align="center">&nbsp;</td>
+			<td align="center">&nbsp;</td>
+		</tr>
+		<tr class="label">
+			<td align="left">IFSC.</td>
+			<td align="center"><input type="text"  name='txt_modal_entry_ifsc' id='txt_modal_entry_ifsc' class="modal-textbox"></td>
+		</tr>
+	</table>
+</form>
+</div>

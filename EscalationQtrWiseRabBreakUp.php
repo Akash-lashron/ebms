@@ -9,6 +9,38 @@ checkUser();
 $msg = '';
 $userid = $_SESSION['userid'];
 $staffid = $_SESSION['sid'];
+if($_POST["submit"] == ' save ') 
+{    
+    $SheetId = $_POST["hid_sheetid"];
+    $EscRbn = $_POST["hid_esc_rbn"];
+    $DeleteQuery = "DELETE FROM esc_qtr_bill_breakup WHERE sheetid = '$SheetId' AND rbn = '$EscRbn'";
+    $DeleteQuery = mysql_query($DeleteQuery); 
+    $BreakUpValue = $_POST['txt_breakup_data']; 
+    foreach($BreakUpValue as $BreakUpDataValue){ 
+        $BrUpData = explode('*',$BreakUpDataValue);   
+        // if(isset($BrUpData['BRKUPITEMARR'])){
+        //     $BreakUpItemArr = $BrUpData['BRKUPITEMARR'];
+        // }else{
+        //     $BreakUpItemArr = array();
+        // }
+        $BreakUpQtr     = $BrUpData[0];
+        $BreakUpRbn     = $BrUpData[1];
+        $BreakUpFDate   = $BrUpData[2];
+        $BreakUpTDate   = $BrUpData[3];
+        $BreakUpAmount  = $BrUpData[4];
+        $BreakUpMode    = $BrUpData[5];
+        $BreakUpMBNo    = $BrUpData[6];
+        $BreakUpMBPage  = $BrUpData[7];
+        $BreakUpPoint   = $BrUpData[8]; 
+        $InsertQuery = "INSERT INTO esc_qtr_bill_breakup (sheetid,rbn,quarter,breakup_rbn,breakup_period_fromdate,breakup_period_todate,breakup_rbn_amt,is_breakup_or_entire_bill,breakup_mbook_no,breakup_mbook_page,active,created_at,userid,staffid,breakup_point) VALUES
+        ('$SheetId','$EscRbn','$BreakUpQtr','$BreakUpRbn','$BreakUpFDate','$BreakUpTDate','$BreakUpAmount','$BreakUpMode','$BreakUpMBNo','$BreakUpMBPage',1,NOW(),'$userid','$staffid','$BreakUpPoint')";
+        $InsertQuery = mysql_query($InsertQuery); 
+
+    }
+    if($InsertQuery == true){
+        $msg = "Quarter Wise RA Bill Breakup Saved Successfully."; 
+    }
+}
 function dt_format($ddmmyyyy) {
     $dt = explode('-', $ddmmyyyy);
 
@@ -44,8 +76,8 @@ function RABillBreakupCalculation($QuarterRabDataValue){
     }
     return $BillBreakAmtWithItem; 
 };
-function CheckPartRateForEscalation($SheetId,$Rbn,$ItemId){ 
-    $PartRatePayData = "SELECT * FROM partpayment WHERE active = 1 AND sheetid = ".$SheetID." AND rbn = ".$Rbn." AND s_itemid = ".$ItemId." ORDER BY ppayid ASC";
+function CheckPartRateForEscalation($SheetId,$Rbn,$Subdivid){ 
+    $PartRatePayData = "SELECT * FROM pp_qty_splt WHERE sheetid = '$SheetId' AND rbn = '$Rbn' AND subdivid = '$Subdivid' ORDER BY ppid ASC";
     $PartRatePayData =  mysql_query($PartRatePayData);
     $ReturnArr = array('PARTRATEPAY'=>$PartRatePayData,'PARTRATEREL'=>NULL);
     return $ReturnArr;
@@ -131,13 +163,13 @@ if($sheetid != ""){
                                     }else{
                                         $UnitCode = null;
                                     }
-                                    if($BillBreakAmtWithItemDataValue->measure_type == "S"){
+                                    if($BillBreakAmtWithItemDataValue->measure_type == "st"){
                                         if($UnitCode == "MT"){ 
                                             $ItemUsedQty = round(($BillBreakAmtWithItemDataValue->used_total_quantity / 1000),$BillBreakAmtWithItemDataValue->decimal_placed);
                                         }else if($UnitCode == "QUINTAL"){
                                             $ItemUsedQty = round(($BillBreakAmtWithItemDataValue->used_total_quantity / 100),$BillBreakAmtWithItemDataValue->decimal_placed);
                                         }else{
-                                            $ItemUsedQty = round($BillBreakAmtWithItemDataValue->used_total_quantity,$BillBreakAmtWithItemDataValue->decimal_placed);
+                                            $ItemUsedQty = round($BillBreakAmtWithItemDataValue->used_total_quantity,$BillBreakAmtWithItemDataValue->decimal_placed); 
                                         }
                                     }else{
                                         $ItemUsedQty = round($BillBreakAmtWithItemDataValue->used_total_quantity,$BillBreakAmtWithItemDataValue->decimal_placed);
@@ -145,17 +177,17 @@ if($sheetid != ""){
                                     $BillBreakAmtWithItemDataValue->used_total_quantity = $ItemUsedQty;
                                     $ItemRate = $BillBreakAmtWithItemDataValue->rate;
                                     /// Here we have to check the part rate
-                                    $PartRateData = CheckPartRateForEscalation($sheetid ,$QuarterRabDataValue->rbn,$BillBreakAmtWithItemDataValue->s_itemid);
-                                    //print_r($PartRateData);
-                                    $PartRatePaidData = $PartRateData['PARTRATEPAY'];
+                                    $PartRateData = CheckPartRateForEscalation($sheetid ,$QuarterRabDataValue->rbn,$BillBreakAmtWithItemDataValue->subdiv_id); 
+                                    
+                                    $PartRatePaidData = $PartRateData['PARTRATEPAY']; 
                                     $PartRateRelData  = $PartRateData['PARTRATEREL'];
-                                    if(!empty($PartRatePaidData)){ 
+                                    if($PartRatePaidData && mysql_num_rows($PartRatePaidData) > 0){ 
                                         $ItemUsedQtyTemp = $ItemUsedQty;
-                                        $ItemAmount = 0;
-                                        while($PartRatePaidDataValue = mysql_fetch_object($PartRatePaidData)){
+                                        $ItemAmount = 0; 
+                                        while($PartRatePaidDataValue = mysql_fetch_object($PartRatePaidData)){                         
                                             if($ItemUsedQtyTemp != 0){ 
-                                                if($PartRatePaidDataValue->rbn == $PartRatePaidDataValue->exe_rbn){
-                                                    $PartRatePaidMode = $PartRatePaidDataValue->part_pay_mode;
+                                                if($PartRatePaidDataValue->rbn){
+                                                    // $PartRatePaidMode = $PartRatePaidDataValue->part_pay_mode;
                                                     $PartRatePaidQty = $PartRatePaidDataValue->qty;
                                                     $PartRatePaidPerc = $PartRatePaidDataValue->percent;
                                                     $PartRatePaidAmt = $PartRatePaidDataValue->part_pay_amount;
@@ -169,13 +201,13 @@ if($sheetid != ""){
                                                         $CalcQty = 0;
                                                     }
                                                     $ItemUsedQtyTemp = $ItemUsedQtyTemp - $CalcQty;
-                                                    if($PartRatePaidMode == "AMT"){
-                                                        $ItemAmount = $ItemAmount + $PartRatePaidAmt;
-                                                    }else{
-                                                        $PartRatePaidRate = round(($ItemRate * $PartRatePaidPerc / 100),2);
-                                                        $PartPaidAmtWithPartRate = round(($CalcQty * $PartRatePaidRate),2);
-                                                        $ItemAmount = $ItemAmount + $PartPaidAmtWithPartRate;
-                                                    }
+                                                    // if($PartRatePaidMode == "AMT"){
+                                                    //     $ItemAmount = $ItemAmount + $PartRatePaidAmt;
+                                                    // }else{
+                                                    $PartRatePaidRate = round(($ItemRate * $PartRatePaidPerc / 100),2);
+                                                    $PartPaidAmtWithPartRate = round(($CalcQty * $PartRatePaidRate),2);
+                                                    $ItemAmount = $ItemAmount + $PartPaidAmtWithPartRate;
+                                                    // }
                                                 }
                                             } 
                                            
@@ -227,9 +259,6 @@ $QtrTotalAmount = 0; $QtrTotalAmountWithRebate = 0;
 ?>
 
 <?php require_once "Header.html"; ?>
-<script>
-   
-</script>
 <script type="text/javascript">
 	window.history.forward();
 	function noBack() { window.history.forward(); }
@@ -245,7 +274,6 @@ $QtrTotalAmount = 0; $QtrTotalAmountWithRebate = 0;
            	<div class="grid_12">
 			<!--<div align="right"><a href="View_Electricity_generate_Bill.php">View</a>&nbsp;&nbsp;&nbsp;</div>-->
                  <blockquote class="bq1" style="overflow:auto">
-					<input type="hidden" name="hid_sheetid" id="hid_sheetid" value="<?php if($_GET['sheet_id'] != ''){ echo $_GET['sheet_id']; } ?>">
 					<input type="hidden" name="hid_staffid" id="hid_staffid" value="<?php echo $staffid; ?>">
                     <table class="DTable" align="center" id="dataTable" width="100%">
 							<thead>
@@ -277,14 +305,7 @@ $QtrTotalAmount = 0; $QtrTotalAmountWithRebate = 0;
                                             if (($PrevQtr != $QuarterRabDataKey) && ($PrevQtr != "")) {
                                                 ?>
                                                 <tr id="<?php echo $PrevQtr; ?>QtrTotRow">
-                                                    <th colspan="6" style="text-align:right">
-                                                        <button type="button" class="btn-ppay ppaysuccess ManualSplit" data-qtr="<?php echo $PrevQtr; ?>">
-                                                            <i class="fa fa-inr"></i> Click here for Manual Bill Split for Quarter - <?php echo $PrevQtr; ?>
-                                                        </button>
-                                                        <button type="button" class="btn-ppay ppaydanger DelManualSplit" data-qtr="<?php echo $PrevQtr; ?>">
-                                                            <i class="fa fa-times-circle"></i> Click here to Delete Manual Bill Split for Quarter - <?php echo $PrevQtr; ?>
-                                                        </button>
-                                                    </th>
+                                                    <th colspan="6" style="text-align:right"></th>
                                                     <th colspan="3" style="text-align:right">Total Amount for Quarter - <?php echo $PrevQtr; ?></th>
                                                     <th style="text-align:right"></th>
                                                     <th style="text-align:right"></th>
@@ -352,7 +373,7 @@ $QtrTotalAmount = 0; $QtrTotalAmountWithRebate = 0;
                                                             <td align="center" nowrap="nowrap"><?php echo $BreakupItemAmtValue->sno; ?></td>
                                                             <td align="right"><?php echo $ItemUsedQty; ?></td>
                                                             <td align="center"><?php echo $Units[$BreakupItemAmtValue->per]; ?></td>
-                                                            <td align="right"><?php echo $ItemRate; ?></td>
+                                                            <td align="right"><?php echo number_format($ItemRate, 2, '.', ''); ?></td>
                                                             <td align="right"><?php echo $ItemAmount; ?></td>
                                                             <?php if ($QtrRabX == 0) { ?>
                                                                 <td align="right" rowspan="<?php echo $RowSpanRab; ?>" valign="middle"><?php echo $QuarterDataValue->total_rab_amount; ?></td>
@@ -369,7 +390,7 @@ $QtrTotalAmount = 0; $QtrTotalAmountWithRebate = 0;
                                                     ?>
                                                     <tr>
                                                         <?php if ($QtrX == 0) { ?>
-                                                            <td align="center" rowspan="<?php echo $RowSpanQtr; ?>" nowrap="nowrap"><?php echo $Sno; ?></td>
+                                                            <td align="center" rowspan="<?php echo $RowSpanQtr; ?>" nowrap="nowrap" valign="middle"><?php echo $Sno; ?></td>
                                                             <td align="center" rowspan="<?php echo $RowSpanQtr; ?>" valign="middle">Quarter - <?php echo $QuarterRabDataKey; ?></td>
                                                             <?php $Sno++; } ?>
                                                         <?php if ($QtrRabX == 0) { ?>
@@ -391,24 +412,14 @@ $QtrTotalAmount = 0; $QtrTotalAmountWithRebate = 0;
                                             
                                                 // Hidden breakup data
                                                 $BreakUpFlagStr = implode(",", $BreakupFlagArr);
-                                                $TemDataArr = array(
-                                                    'QTR' => $QuarterRabDataKey,
-                                                    'RBN' => $QuarterDataKey,
-                                                    'FDATE' => $BreakupFDate,
-                                                    'TDATE' => $BreakupTDate,
-                                                    'AMT' => $QuarterDataValue->total_rab_amount,
-                                                    'MODE' => $BreakupMode,
-                                                    'MBNO' => null,
-                                                    'MBPAGE' => null,
-                                                    'BREAKUPPOINT' => $BreakUpFlagStr
-                                                );
-                                                if (!empty($BreakupItemAmtArr)) {
-                                                    $TemDataArr['BRKUPITEMARR'] = $BreakupItemAmtArr;
-                                                }
+                                                $TemDataArr = $QuarterRabDataKey.'*'.$QuarterDataKey.'*'.$BreakupFDate.'*'.$BreakupTDate.'*'.$QuarterDataValue->total_rab_amount.'*'.$BreakupMode.'* * *'.$BreakUpFlagStr; 
+                                                // if (!empty($BreakupItemAmtArr)) {
+                                                //     $TemDataArr['BRKUPITEMARR'] = $BreakupItemAmtArr;
+                                                // }
                                             
-                                                $BreakUpData = json_encode($TemDataArr);
+                                                $BreakUpData = $TemDataArr;
                                                 ?>
-                                                <input type="hidden" class="BreakUpData" name="txt_breakup_data[]" value="<?php echo base64_encode($BreakUpData); ?>">
+                                                <input type="hidden" class="BreakUpData" name="txt_breakup_data[]" value="<?php echo $BreakUpData; ?>">
                                                 <?php
                                                 $PrevQtr = $QuarterRabDataKey;
                                                 $CurrQuarter = $QuarterRabDataKey;
@@ -418,14 +429,7 @@ $QtrTotalAmount = 0; $QtrTotalAmountWithRebate = 0;
                                 
                                     if (!empty($PrevQtr)) { ?>
                                         <tr id="<?php echo $PrevQtr; ?>QtrTotRow">
-                                            <th colspan="6" style="text-align:right">
-                                                <button type="button" class="btn-ppay ppaysuccess ManualSplit" data-qtr="<?php echo $PrevQtr; ?>">
-                                                    <i class="fa fa-inr"></i> Click here for Manual Bill Split for Quarter - <?php echo $PrevQtr; ?>
-                                                </button>
-                                                <button type="button" class="btn-ppay ppaydanger DelManualSplit" data-qtr="<?php echo $PrevQtr; ?>">
-                                                    <i class="fa fa-times-circle"></i> Click here to Delete Manual Bill Split for Quarter - <?php echo $PrevQtr; ?>
-                                                </button>
-                                            </th>
+                                            <th colspan="6" style="text-align:right"></th>
                                             <th colspan="3" style="text-align:right">Total Amount for Quarter - <?php echo $PrevQtr; ?></th>
                                             <th style="text-align:right"></th>
                                             <th style="text-align:right"></th>
@@ -438,38 +442,57 @@ $QtrTotalAmount = 0; $QtrTotalAmountWithRebate = 0;
                             </tbody>
                         </table>
 					<div style="text-align:center; height:45px; line-height:45px;" class="printbutton">
+                        <input type="hidden" name="hid_sheetid" id="hid_sheetid" value="<?php if($sheetid != ''){ echo $sheetid; } ?>">
+					    <input type="hidden" name="hid_esc_rbn" id="hid_esc_rbn" value="<?php if($cc_esc_rbn != ''){ echo $cc_esc_rbn; } ?>">
 						<div class="buttonsection">
 							<input type="button" class="backbutton" name="back" id="back" value="Back" onClick="goBack();"/>
 						</div>
 						<div class="buttonsection">
-							<input type="submit" name="submit" id="submit" value=" View "/>
+							<input type="submit" name="submit" id="submit" value=" save "/>
 						</div>
 					</div>
                   </blockquote>
               </div>
         </div>
 	</div>
-            <!--==============================footer=================================-->
-           <?php   include "footer/footer.html"; ?>
-		   <script>
-		   		$("#cmb_shortname").chosen();
-				var msg = "<?php echo $msg; ?>";
-				var success = "<?php echo $success; ?>";
-				var titletext = "";
-				document.querySelector('#top').onload = function(){
-				if(msg != "")
-				{
-					if(success == 1)
-					{
-						swal("", msg, "success");
-					}
-					else
-					{
-						swal(msg, "", "");
-					}
+</form>
+        <!--==============================footer=================================-->
+<?php   include "footer/footer.html"; ?>
+</body>
+<script>
+   var msg = "<?php echo $msg; ?>";
+   if(msg != ""){
+		BootstrapDialog.show({
+			title: 'Information',
+			closable: false,
+			message: msg,
+			buttons: [{
+				label: ' OK ',
+				cssClass: 'btn-primary',
+				action: function(dialogRef) {
+					dialogRef.close();
+                    url = "EscalationQtrWiseRabBreakUpGenerate.php";
+	                window.location.replace(url);
 				}
-				};
-			</script>
-        </form>
-    </body>
+			}]
+		});
+	}
+     var KillEvent = 0;
+    $('body').on("click","#submit", function(event){
+	    if(KillEvent == 0){          
+		    event.preventDefault();
+		    BootstrapDialog.confirm('Are you sure want to Save ?', function(result){
+		    	if(result) {
+		    		KillEvent = 1;
+		    		$("#submit").trigger( "click" );
+		    	}
+		    });
+        }
+    });
+   function goBack()
+	{
+		url = "EscalationQtrWiseRabBreakUpGenerate.php";
+		window.location.replace(url);
+	}
+</script>
 </html>

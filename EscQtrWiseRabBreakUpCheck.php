@@ -1,0 +1,203 @@
+<?php
+session_start();
+@ob_start();
+require_once 'library/config.php';
+function RABillBreakupCalculation($QuarterRabDataValue){ 
+    $MeasFromDate = $QuarterRabDataValue->breakup_from_date; 
+    $MeasToDate = $QuarterRabDataValue->breakup_to_date;
+    $BreakupRbn = $QuarterRabDataValue->rbn;
+    $BreakupSheetId = $QuarterRabDataValue->sheetid;
+    $BillBreakAmtWithItemData = "SELECT mbookdetail.subdivid,SUM(mbookdetail.measurement_contentarea) AS used_total_quantity,schdule.* FROM mbookdetail
+    INNER JOIN mbookheader ON mbookdetail.mbheaderid = mbookheader.mbheaderid
+    INNER JOIN schdule ON mbookdetail.subdivid = schdule.subdiv_id
+    WHERE mbookheader.sheetid = '$BreakupSheetId'
+    AND mbookheader.date >= '$MeasFromDate'
+    AND mbookheader.date <= '$MeasToDate'
+    GROUP BY mbookdetail.subdivid,schdule.subdiv_id";
+    
+    $BillBreakAmtWithItemData = mysql_query($BillBreakAmtWithItemData);
+    $BillBreakAmtWithItem = array();
+    while($BillBreakAmt = mysql_fetch_object($BillBreakAmtWithItemData)){
+        $BillBreakAmtWithItem[] = $BillBreakAmt;
+    }
+    return $BillBreakAmtWithItem; 
+};
+function CheckPartRateForEscalation($SheetId,$Rbn,$Subdivid){ 
+    $PartRatePayData = "SELECT * FROM pp_qty_splt WHERE sheetid = '$SheetId' AND rbn = '$Rbn' AND subdivid = '$Subdivid' ORDER BY ppid ASC";
+    $PartRatePayData =  mysql_query($PartRatePayData);
+    $ReturnArr = array('PARTRATEPAY'=>$PartRatePayData,'PARTRATEREL'=>NULL);
+    return $ReturnArr;
+} 
+if($sheetid != ""){
+    $WorkOrder     = "SELECT * FROM sheet WHERE active = 1 AND sheet_id = '$sheetid'";
+    $WorkOrder     = mysql_query($WorkOrder); 
+    $WorkOrderData = mysql_fetch_object($WorkOrder);
+    $RebatePerc        = $WorkOrderData->rebate_percent; 
+    $EscBill     = "SELECT * FROM escalation WHERE active = 1 AND sheetid = '$sheetid' AND rbn = '$cc_esc_rbn' ORDER BY quarter ASC";
+    $EscBillData = mysql_query($EscBill);
+    //$EscBillData     = $this->esclation->ShowEscalation($request,$SheetId,$Rbn);
+    $RABBreakupArr   = array();
+    $RABNoBreakupArr = array();
+    $RABDataArr      = array();
+    $QuarterRabDataArr = array();
+    $RabQuarterMapArr = array();
+    $RowSpanQtrArr = array();
+    $RowSpanRabArr = array();
+    $Units = "SELECT * from unit ";
+    $AllUnits = mysql_query($Units);
+    while ($row = mysql_fetch_assoc($AllUnits)) {
+        $UnitCodeArr[$row['unit_name']] = $row['unit_name'];
+    }
+    if($EscBillData == true){
+       while ($row = mysql_fetch_assoc($EscBillData)) {
+            $quarter = $row['quarter'];
+            if (!isset($QtrGrpEscBillData[$quarter])) {
+                $QtrGrpEscBillData[$quarter] = array();
+            }        
+            $QtrGrpEscBillData[$quarter][] = $row;
+        }
+        if($QtrGrpEscBillData == true){
+            foreach($QtrGrpEscBillData as $QtrGrpEscBillDataValue){   //dd($QtrGrpEscBillDataValue);
+                $QuarterData        = $QtrGrpEscBillDataValue[0];
+                $QuarterFromDate    = $QuarterData['quarter_from_date'];//"2024-01-01";//
+                $QuarterToDate      = $QuarterData['quarter_to_date']; //"2024-02-07";//
+                $Quarter            = $QuarterData['quarter'];
+                $TempArr            = array(); 
+                $QuarterRabDataQuery = "SELECT * FROM abstractbook WHERE active = 1 AND sheetid = '$sheetid' AND ( (fromdate BETWEEN '$QuarterFromDate' AND '$QuarterToDate') OR (todate BETWEEN '$QuarterFromDate' AND '$QuarterToDate')  OR (fromdate <= '$QuarterFromDate' AND todate >= '$QuarterToDate'))"; 
+                $QuarterRabDataQuery = mysql_query($QuarterRabDataQuery); 
+                if($QuarterRabDataQuery == true){
+                    while($QuarterRabDataValue  = mysql_fetch_object($QuarterRabDataQuery)){
+                        $RbnFromDate = $QuarterRabDataValue->fromdate;
+                        $RbnToDate = $QuarterRabDataValue->todate; 
+                        $BreakUpDateFlagArr = array();
+                        $BreakUpFromDate = $RbnFromDate;
+                        $BreakUpToDate = $RbnToDate; 
+                        if(($RbnFromDate >= $QuarterFromDate)&&($RbnToDate <= $QuarterToDate)){  
+                            $RABNoBreakupArr[] = $QuarterRabDataValue->rbn; 
+                        }else{ 
+                            $RABBreakupArr[] = $QuarterRabDataValue->rbn; 
+                            if($RbnFromDate < $QuarterFromDate){ 
+                                // Breakup By From Date
+                                $BreakUpDateFlagArr[] = "FROMDATE";
+                                $BreakUpFromDate = $QuarterFromDate;
+                            }
+                            if($RbnToDate > $QuarterToDate){
+                                // Breakup By To Date
+                                $BreakUpDateFlagArr[] = "TODATE";
+                                $BreakUpToDate = $QuarterToDate;
+                            }
+                        }
+                        
+                        $QuarterRabDataValue->quarter           = $QuarterData['quarter'];
+                        $QuarterRabDataValue->quarter_from_date = $QuarterFromDate;
+                        $QuarterRabDataValue->quarter_to_date   = $QuarterToDate;
+                        $QuarterRabDataValue->breakup_from_date = $BreakUpFromDate;
+                        $QuarterRabDataValue->breakup_to_date   = $BreakUpToDate;
+                        $QuarterRabDataValue->breakup_flag      = $BreakUpDateFlagArr;
+                        $RowSpan = 1;
+                        $RabAmount = 0; 
+                        if(count($BreakUpDateFlagArr) > 0){
+                            // If breakup condition meets then call breakup calculation function
+                            $BillBreakAmtWithItemData = RABillBreakupCalculation($QuarterRabDataValue);   
+                            if(!empty($BillBreakAmtWithItemData)){
+                                foreach( $BillBreakAmtWithItemData as $BillBreakAmtWithItemDataValue){
+                                    if(isset($BillBreakAmtWithItemDataValue->per)){
+                                        $UnitCode = $UnitCodeArr[$BillBreakAmtWithItemDataValue->per];
+                                    }else{
+                                        $UnitCode = null;
+                                    }
+                                    if($BillBreakAmtWithItemDataValue->measure_type == "st"){
+                                        if($UnitCode == "MT"){ 
+                                            $ItemUsedQty = round(($BillBreakAmtWithItemDataValue->used_total_quantity / 1000),$BillBreakAmtWithItemDataValue->decimal_placed);
+                                        }else if($UnitCode == "QUINTAL"){
+                                            $ItemUsedQty = round(($BillBreakAmtWithItemDataValue->used_total_quantity / 100),$BillBreakAmtWithItemDataValue->decimal_placed);
+                                        }else{
+                                            $ItemUsedQty = round($BillBreakAmtWithItemDataValue->used_total_quantity,$BillBreakAmtWithItemDataValue->decimal_placed); 
+                                        }
+                                    }else{
+                                        $ItemUsedQty = round($BillBreakAmtWithItemDataValue->used_total_quantity,$BillBreakAmtWithItemDataValue->decimal_placed);
+                                    }
+                                    $BillBreakAmtWithItemDataValue->used_total_quantity = $ItemUsedQty;
+                                    $ItemRate = $BillBreakAmtWithItemDataValue->rate;
+                                    /// Here we have to check the part rate
+                                    $PartRateData = CheckPartRateForEscalation($sheetid ,$QuarterRabDataValue->rbn,$BillBreakAmtWithItemDataValue->subdiv_id); 
+                                    
+                                    $PartRatePaidData = $PartRateData['PARTRATEPAY']; 
+                                    $PartRateRelData  = $PartRateData['PARTRATEREL'];
+                                    if($PartRatePaidData && mysql_num_rows($PartRatePaidData) > 0){ 
+                                        $ItemUsedQtyTemp = $ItemUsedQty;
+                                        $ItemAmount = 0; 
+                                        while($PartRatePaidDataValue = mysql_fetch_object($PartRatePaidData)){                         
+                                            if($ItemUsedQtyTemp != 0){ 
+                                                if($PartRatePaidDataValue->rbn){
+                                                    // $PartRatePaidMode = $PartRatePaidDataValue->part_pay_mode;
+                                                    $PartRatePaidQty = $PartRatePaidDataValue->qty;
+                                                    $PartRatePaidPerc = $PartRatePaidDataValue->percent;
+                                                    $PartRatePaidAmt = $PartRatePaidDataValue->part_pay_amount;
+                                                    if($ItemUsedQtyTemp == $PartRatePaidQty){
+                                                        $CalcQty = $PartRatePaidQty;
+                                                    }else if($PartRatePaidQty > $ItemUsedQtyTemp){
+                                                        $CalcQty = $ItemUsedQtyTemp;
+                                                    }else if($PartRatePaidQty < $ItemUsedQtyTemp){
+                                                        $CalcQty = $PartRatePaidQty;
+                                                    }else{
+                                                        $CalcQty = 0;
+                                                    }
+                                                    $ItemUsedQtyTemp = $ItemUsedQtyTemp - $CalcQty;
+                                                    // if($PartRatePaidMode == "AMT"){
+                                                    //     $ItemAmount = $ItemAmount + $PartRatePaidAmt;
+                                                    // }else{
+                                                    $PartRatePaidRate = round(($ItemRate * $PartRatePaidPerc / 100),2);
+                                                    $PartPaidAmtWithPartRate = round(($CalcQty * $PartRatePaidRate),2);
+                                                    $ItemAmount = $ItemAmount + $PartPaidAmtWithPartRate;
+                                                    // }
+                                                }
+                                            } 
+                                           
+                                        }
+                                    }else{
+                                        $ItemAmount = round(($ItemUsedQty * $ItemRate),2);
+                                    }
+                                    $BillBreakAmtWithItemDataValue->item_amt_for_esc = $ItemAmount;
+                                    
+                                    $RabAmount = $RabAmount + $ItemAmount;
+                                }
+                            }
+                            $QuarterRabDataValue->total_rab_amount = $RabAmount;
+                            $RowSpan = count($BillBreakAmtWithItemData);
+                        }else{
+                            $BillBreakAmtWithItemData = NULL; 
+                            $QuarterRabDataValue->total_rab_amount  = $QuarterRabDataValue->slm_total_amount;//+$QuarterRabDataValue->secured_adv_amt;
+                        }
+                        if(isset($RowSpanQtrArr["QTR-".$QuarterData['quarter']])){
+                            $RowSpanQtrArr["QTR-".$QuarterData['quarter']] = $RowSpanQtrArr["QTR-".$QuarterData['quarter']] + $RowSpan;
+                        }else{
+                            $RowSpanQtrArr["QTR-".$QuarterData['quarter']] = $RowSpan;
+                        }
+                        if(isset($RowSpanRabArr["QTR-".$QuarterData['quarter']]["RAB-".$QuarterRabDataValue->rbn])){
+                            $RowSpanRabArr["QTR-".$QuarterData['quarter']]["RAB-".$QuarterRabDataValue->rbn] = $RowSpanRabArr["QTR-".$QuarterData['quarter']]["RAB-".$QuarterRabDataValue->rbn] + $RowSpan;
+                        }else{
+                            $RowSpanRabArr["QTR-".$QuarterData['quarter']]["RAB-".$QuarterRabDataValue->rbn] = $RowSpan;
+                        }
+                        
+                        $QuarterRabDataValue->breakup_item_amt_data = $BillBreakAmtWithItemData;
+                        $RABDataArr[$QuarterRabDataValue->rbn]  = $QuarterRabDataValue; 
+                        $QuarterRabDataArr[$Quarter][$QuarterRabDataValue->rbn] = $QuarterRabDataValue; 
+                        $RabQuarterMapArr[$QuarterRabDataValue->rbn][] = $Quarter;
+                    }
+                }
+                //$QuarterRabArr[$Quarter] = $TempArr;
+            }
+        }
+    }
+    if($Page == "CACL"){
+        $ReturnArr = array('WorkOrderData'=>$WorkOrderData,'RABDataArr'=>$RABDataArr,'QuarterRabDataArr'=>$QuarterRabDataArr,'RabQuarterMapArr'=>$RabQuarterMapArr,'RABBreakupArr'=>$RABBreakupArr,'RABNoBreakupArr'=>$RABNoBreakupArr,'EscBillData'=>$EscBillData,'RowSpanQtrArr'=>$RowSpanQtrArr,'RowSpanRabArr'=>$RowSpanRabArr);
+        return $ReturnArr;
+    }
+    if($Page == "VIEW"){
+        $ReturnArr = array('RABDataArr'=>$RABDataArr,'QuarterRabDataArr'=>$QuarterRabDataArr,'RabQuarterMapArr'=>$RabQuarterMapArr,'RABBreakupArr'=>$RABBreakupArr,'RABNoBreakupArr'=>$RABNoBreakupArr,'EscBillData'=>$EscBillData,'RowSpanQtrArr'=>$RowSpanQtrArr,'RowSpanRabArr'=>$RowSpanRabArr);
+        return $ReturnArr;
+    }
+}
+//echo $MBookQuery;
+?>

@@ -428,6 +428,7 @@ if($_SESSION['staff_section'] == 2)
 												<li><a href="Escalation_10CA.php">Calculation-10 CA</a></li>
 												<li><a href="EscalationAbstractGenerate.php">EscalationAbstract</a></li>
 												<li><a href="EscalationQtrWiseRabBreakUpGenerate.php">10 CC - Quarter Wise RA Bill Breakup</a></li>
+												<li><a href="EscalationQtrWiseWorkDoneGenerate.php">10CC - RA Bill Work Done Value</a></li>
 												<li><a href="Escalation_10CC.php">Calculation-10 CC</a></li>
 												<li><a href="EscalationGenerate.php">EscalationGenerate</a></li>
 											</ul>   
